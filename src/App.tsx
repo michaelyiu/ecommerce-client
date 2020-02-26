@@ -1,5 +1,6 @@
 // Library imports
 import React from "react";
+import Button from '@material-ui/core/Button';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 // local imports
@@ -21,6 +22,9 @@ const App: React.FC = () => {
           <Header />
           <Register />
           <Login />
+          <Button variant="contained" color="primary">
+            Hello World
+          </Button>
         </UserContextProvider>
       </ApolloProvider>
     </div>
