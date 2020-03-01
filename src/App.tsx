@@ -1,5 +1,6 @@
 // Library imports
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { ApolloProvider } from '@apollo/react-hooks';
 
@@ -13,18 +14,23 @@ import UserContextProvider from "./contexts/UserContext";
 import Header from "./components/Header";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import NavBar from "./components/layout/NavBar";
+
+
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <ApolloProvider client={client}>
         <UserContextProvider>
-          <Header />
-          <Register />
-          <Login />
-          <Button variant="contained" color="primary">
-            Hello World
-          </Button>
+          <Router>
+
+            <NavBar />
+            <Header />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+
+          </Router>
         </UserContextProvider>
       </ApolloProvider>
     </div>

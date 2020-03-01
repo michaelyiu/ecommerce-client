@@ -1,34 +1,28 @@
-var CACHE_NAME = 'pwa-task-manager';
+var CACHE_NAME = 'site-static';
 var urlsToCache = [
 	'/',
-	'/completed'
+	'/index.html',
+	'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
 ];
 
 // Install a service worker
 self.addEventListener('install', event => {
 	// Perform install steps
 	event.waitUntil(
-		caches.open(CACHE_NAME)
-			.then(function (cache) {
-				console.log('Opened cache');
-				return cache.addAll(urlsToCache);
-			})
+		caches.open(CACHE_NAME).then(cache => {
+			console.log('Opened cache');
+			cache.addAll(urlsToCache);
+		})
 	);
 });
 
 // Cache and return requests
 self.addEventListener('fetch', event => {
-	console.log(event);
 	event.respondWith(
-		caches.match(event.request)
-			.then(function (response) {
-				// Cache hit - return response
-				if (response) {
-					return response;
-				}
-				return fetch(event.request);
-			}
-			)
+		caches.match(event.request).then(cacheRes => {
+			console.log('cache hit')
+			return cacheRes || fetch(event.request);
+		})
 	);
 });
 
