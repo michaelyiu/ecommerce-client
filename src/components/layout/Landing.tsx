@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
 	fixedHeight: {
 		height: 240,
 	},
+	item: {
+		flex: 1
+	}
+
 })
 )
 
@@ -41,24 +45,44 @@ const Landing: React.FC = () => {
 
 	return (
 		<main className={classes.content}>
-			<Container maxWidth="lg" className={classes.container}>
-				<Grid container spacing={3}>
-					<Hidden smDown>
-						<Grid item xs={'auto'} md={4} lg={4}>
-							<Paper className={fixedHeightPaper}>
-								<SideBar />
-							</Paper>
-						</Grid>
+			<Container maxWidth="xl" className={classes.container}>
 
-					</Hidden>
-					<Grid item xs={12} md={8} lg={8}>
-						<Paper className={fixedHeightPaper}>
-							<MainContent />
-						</Paper>
+
+				<Grid spacing={4} container className={classes.container}>
+					<Grid xs={'auto'} md={4} lg={4} item spacing={4}>
+						<Hidden smDown>
+							<Grid container direction="column" spacing={4}>
+								<Grid className={classes.item} item>
+									<Paper className={fixedHeightPaper}>
+										<SideBar />
+									</Paper>
+								</Grid>
+								<Grid className={classes.item} item>
+									<Paper className={fixedHeightPaper}>
+										<SideBar />
+									</Paper>
+								</Grid>
+							</Grid>
+						</Hidden>
 					</Grid>
+					<Grid item xs={12} md={8} lg={8}>
+						<Grid container spacing={4}>
+							<Grid item xs={12}>
+								<Paper className={fixedHeightPaper}>
+									<MainContent />
+								</Paper>
+							</Grid>
+							<Grid item xs={12}>
+								<Paper className={fixedHeightPaper}>
+									<MainContent />
+								</Paper>
+							</Grid>
+						</Grid>
+					</Grid>
+
 				</Grid>
 			</Container>
-		</main>
+		</main >
 	);
 };
 
