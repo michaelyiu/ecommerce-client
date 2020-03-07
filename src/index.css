@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* For Material UI Divider components that are inside of flexboxes */
+hr {
+  align-self: stretch;
+  height: auto;
+}

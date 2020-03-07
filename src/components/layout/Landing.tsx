@@ -12,12 +12,13 @@ import Search from "./Search";
 import Filter from "./Filter";
 import MainContent from "./MainContent";
 import Hidden from '@material-ui/core/Hidden';
+import PhoneCard from "./PhoneCard";
 
 const useStyles = makeStyles(theme => ({
 	content: {
 		flexGrow: 1,
 		height: '100vh',
-		overflow: 'auto',
+		// overflow: 'auto', causes double vertical scroll bars..
 	},
 	container: {
 		paddingTop: theme.spacing(4),
@@ -45,6 +46,10 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	cardContainer: {
+		display: 'flex',
+		flexWrap: 'wrap'
 	}
 })
 )
@@ -57,8 +62,8 @@ const Landing: React.FC = () => {
 	return (
 		<main className={classes.content}>
 			<Container maxWidth="xl" className={classes.container}>
-				<Grid spacing={6} container className={classes.container}>
-					<Grid xs={'auto'} md={3} lg={3} item spacing={4}>
+				<Grid spacing={4} container className={classes.container}>
+					<Grid item xs={'auto'} md={3} lg={3} >
 						<Hidden smDown>
 							<Grid container direction="column" spacing={4}>
 								<Grid className={classes.item} item>
@@ -80,10 +85,18 @@ const Landing: React.FC = () => {
 					</Grid>
 					<Grid item xs={12} md={9} lg={9}>
 						<Grid container spacing={4}>
-							<Grid item xs={12}>
-								<Card className={fixedHeightCard} elevation={4}>
-									<MainContent />
-								</Card>
+							<Grid item xs={12} sm={6} md={4} lg={3}>
+
+								<PhoneCard />
+							</Grid>
+							<Grid item xs={12} sm={6} md={4} lg={3}>
+								<PhoneCard />
+							</Grid>
+							<Grid item xs={12} sm={6} md={4} lg={3}>
+								<PhoneCard />
+							</Grid>
+							<Grid item xs={12} sm={6} md={4} lg={3}>
+								<PhoneCard />
 							</Grid>
 							<Grid item xs={12}>
 								<Card className={fixedHeightCard} elevation={4}>

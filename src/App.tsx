@@ -18,6 +18,7 @@ import NavBar from "./components/layout/NavBar";
 import NavContextProvider from "./contexts/NavContext";
 import MenuList from "./components/layout/MenuList";
 
+import Cart from "./components/cart/Cart";
 
 
 
@@ -33,6 +34,7 @@ const App: React.FC = () => {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/cart" component={Cart} />
               <MenuList />
             </Router>
           </NavContextProvider>

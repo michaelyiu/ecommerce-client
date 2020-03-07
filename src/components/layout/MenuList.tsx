@@ -29,7 +29,7 @@ const MenuList: React.FC = () => {
 				onKeyDown={() => setActive(false)}
 			>
 				<List>
-					{['Register', 'Login', 'Search', 'About MY Phones'].map((text, index) => (
+					{['Register', 'Login', 'Search', 'About MY Phones', 'Cart'].map((text, index) => (
 						<ListItem button key={text}>
 							<ListItemText primary={text} />
 						</ListItem>

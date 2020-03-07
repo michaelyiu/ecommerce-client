@@ -11,6 +11,8 @@ import Hidden from '@material-ui/core/Hidden';
 
 import { NavContext } from "../../contexts/NavContext";
 
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
@@ -21,6 +23,10 @@ const useStyles = makeStyles(theme => ({
 	title: {
 		flexGrow: 1,
 	},
+	links: {
+		textDecoration: 'none',
+		color: 'white'
+	}
 }));
 
 const NavBar = () => {
@@ -30,11 +36,15 @@ const NavBar = () => {
 	return (
 		<AppBar position="static" style={{ background: '#2E3B55' }}>
 			<Toolbar>
-
 				<Typography variant="h6" className={classes.title}>
-					MY Phones
+					<Link to="/" className={classes.links}>
+						MY Phones
+				</Link>
 				</Typography>
 				<Hidden smDown>
+					<Link to="/cart" className={classes.links}>
+						<ShoppingCartIcon />
+					</Link>
 					<Button component={Link} to="/register" color="inherit">Register</Button>
 					<Button component={Link} to="/login" color="inherit">Login</Button>
 				</Hidden>
