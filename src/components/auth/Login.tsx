@@ -14,6 +14,9 @@ import { useForm } from "react-hook-form";
 
 import { useMutation } from '@apollo/react-hooks';
 import { SIGNIN_MUTATION } from "../../gql/mutations/auth";
+import { Redirect } from "react-router-dom";
+
+import { AuthContext } from './../../contexts/AuthContext';
 
 type FormData = {
 	// name: string;
@@ -59,23 +62,58 @@ const Login: React.FC = () => {
 	const classes = useStyles();
 	const [user, setUserLogin] = useState({});
 
-	const { register, handleSubmit, errors } = useForm<FormData>();
+	const { register, handleSubmit } = useForm<FormData>();
 	const onSubmit = handleSubmit((data) => {
 		setUserLogin(data);
-		console.log(user);
 		signIn();
 	});
+
+	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
 
 	const [signIn, { loading, data, error }] = useMutation(
 		SIGNIN_MUTATION,
 		{
 			variables: user,
 			onCompleted(data) {
-				if (data && data.signIn)
+				if (data && data.signIn) {
+					toggleAuth();
 					window.localStorage.setItem('token', data.signIn.token)
+				}
+			},
+			onError(err) {
+				//need this here to suppress typescript issue with apollo graphqlErrors
 			}
 		}
 	)
+
+	function showErrors() {
+		if (!loading && error) {
+			console.log(error.graphQLErrors)
+			return (
+				<div>
+					{
+						error.graphQLErrors.map(({ extensions, message }, i) => (
+							// <h4 key={i}>{extensions && extensions.errors && extensions.errors.email ? extensions.errors.email : null}</h4>
+							<h4 key={i}>{message ? message : null}</h4>
+						))
+					}
+				</div>
+			)
+		}
+	}
+
+	// Store token if login is successful
+	if (data) {
+		window.localStorage.setItem('token', data.signIn.token)
+		window.localStorage.setItem('email', data.signIn.email)
+		// Redirect to home page
+		return <Redirect to='/' />
+	}
+
+	if (isAuthenticated) {
+		return <Redirect to='/' />
+	}
+
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -129,6 +167,7 @@ const Login: React.FC = () => {
 						</Grid>
 					</Grid>
 				</form>
+				{showErrors()}
 			</div>
 			<Box mt={8}>
 				<Copyright />

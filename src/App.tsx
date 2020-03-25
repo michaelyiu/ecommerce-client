@@ -8,7 +8,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { client } from './lib/apollo';
 
 // Context imports
-import UserContextProvider from "./contexts/UserContext";
+import AuthContextProvider from "./contexts/AuthContext";
 
 // Component imports
 import Register from "./components/auth/Register";
@@ -26,7 +26,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <ApolloProvider client={client}>
-        <UserContextProvider>
+        <AuthContextProvider>
           <NavContextProvider>
             <Router>
 
@@ -38,7 +38,7 @@ const App: React.FC = () => {
               <MenuList />
             </Router>
           </NavContextProvider>
-        </UserContextProvider>
+        </AuthContextProvider>
       </ApolloProvider>
     </div>
   );

@@ -52,10 +52,10 @@ const Cart: React.FC = () => {
 						{/* <CardContent className={classes.content}> */}
 						<Typography variant="h6">
 							Live From Space
-          		</Typography>
+						</Typography>
 						<Typography variant="subtitle1" color="textSecondary">
 							Kuwhata
-          		</Typography>
+						</Typography>
 						<FormControl
 						// className={classes.formControl}
 						>

@@ -3,6 +3,7 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 
 import { Typography } from "@material-ui/core";
 import CartItem from "./CartItem";
@@ -24,11 +25,11 @@ const Cart: React.FC = () => {
 	const classes = useStyles();
 	return (
 		<main className={classes.content}>
-			<Container maxWidth="lg" className={classes.container}>
+			<Container maxWidth="xl" className={classes.container}>
 				<Grid spacing={4} container className={classes.container}>
 					<Grid item xs={12} md={8} lg={8} >
 						<Typography variant='h6' align={"left"}>
-							CartITEM
+							Cart
 						</Typography>
 						<Grid container direction="column" spacing={4} className={classes.container}>
 
@@ -37,9 +38,23 @@ const Cart: React.FC = () => {
 						</Grid>
 					</Grid>
 					<Grid item xs={12} md={4} lg={4}>
-						<Typography>
-							Total
+						<Typography variant='h6'>
+							Summary
 						</Typography>
+						<Grid container direction="column" spacing={4} className={classes.container}>
+
+							<Typography variant="subtitle1" color="textSecondary">
+								Kuwhata
+							</Typography>
+							<Typography variant="subtitle1" color="textSecondary">
+								Kuwhata
+							</Typography>
+							<Divider />
+
+							<Typography variant="subtitle1" color="textSecondary">
+								Kuwhata
+							</Typography>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Container>

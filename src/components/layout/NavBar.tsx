@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
 
+import { AuthContext } from "../../contexts/AuthContext";
 import { NavContext } from "../../contexts/NavContext";
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -31,7 +32,36 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = () => {
 	const classes = useStyles();
+	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
 	const { active, setActive } = useContext(NavContext);
+
+	const onLogoutClick = () => {
+		console.log('hello')
+		// e.preventDefault();
+		localStorage.clear();
+		toggleAuth();
+	}
+
+	const authLinks = (
+		<Hidden smDown>
+			<Link to="/cart" className={classes.links}>
+				<ShoppingCartIcon />
+			</Link>
+			<Button component={Link} to="/" color="inherit"
+				onClick={onLogoutClick}
+			> Logout</Button>
+		</Hidden>
+	);
+
+	const guestLinks = (
+		<Hidden smDown>
+			<Link to="/cart" className={classes.links}>
+				<ShoppingCartIcon />
+			</Link>
+			<Button component={Link} to="/register" color="inherit">Register</Button>
+			<Button component={Link} to="/login" color="inherit">Login</Button>
+		</Hidden>
+	);
 
 	return (
 		<AppBar position="static" style={{ background: '#2E3B55' }}>
@@ -41,13 +71,14 @@ const NavBar = () => {
 						MY Phones
 				</Link>
 				</Typography>
-				<Hidden smDown>
+				{isAuthenticated ? authLinks : guestLinks}
+				{/* <Hidden smDown>
 					<Link to="/cart" className={classes.links}>
 						<ShoppingCartIcon />
 					</Link>
 					<Button component={Link} to="/register" color="inherit">Register</Button>
 					<Button component={Link} to="/login" color="inherit">Login</Button>
-				</Hidden>
+				</Hidden> */}
 				<Hidden mdUp>
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
 						onClick={() => setActive(!active)}>
