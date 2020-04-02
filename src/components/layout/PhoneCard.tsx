@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Divider from '@material-ui/core/Divider';
@@ -13,6 +12,16 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
+import { CartContext } from "../../contexts/CartContext";
+
+interface IProduct {
+	id?: String
+	name: String
+	price: Number
+	category: String
+	image: String
+	description: String
+}
 const useStyles = makeStyles(theme => ({
 	media: {
 		height: '80%',
@@ -31,13 +40,21 @@ const useStyles = makeStyles(theme => ({
 		height: 420,
 	},
 	pos: {
-		margin: '6px 0'
+		margin: '6px 0',
+		height: '100px'
 	},
+
 })
 )
+// const test = () => {
+// 	console.log('test');
+// }
 
-const PhoneCard: React.FC = () => {
+const PhoneCard: React.FC<IProduct> = (props) => {
 	const classes = useStyles();
+
+	// const { cartQuantity, setQuantity } = useContext(CartContext);
+
 	return (
 		// <Grid item xs={12} sm={6} md={4} lg={3}>
 		<Card className={classes.card} elevation={4}>
@@ -49,9 +66,9 @@ const PhoneCard: React.FC = () => {
 			<Divider />
 			{/* card content here maybe set size to equal 100% width */}
 			<CardContent>
-				<Typography>IPhone</Typography>
-				<Typography>$1000.00</Typography>
-				<Typography className={classes.pos}>Doggo ipsum pupper super chub very jealous pupper noodle horse snoot, super chub very taste wow.</Typography>
+				<Typography>{props.name}</Typography>
+				<Typography>${props.price}</Typography>
+				<Typography className={classes.pos}>{props.description}</Typography>
 
 				<ButtonGroup
 					variant="text"
@@ -59,7 +76,41 @@ const PhoneCard: React.FC = () => {
 					aria-label="text primary button group"
 					fullWidth={true}
 				>
-					<Button><ShoppingCartIcon />Add</Button>
+					<Button onClick={() => {
+						//PRE everything
+						//if its a guest, when user visits the site, they should be assigned a cart right away
+						//where we can then use the cart_id assigned and returned to add and update the cart items
+						//PRE everything
+
+						//add to client's CartContext state first.. have an object
+						/* 1)
+						{
+								id: 123456
+								orderedItems {
+									quantity
+									product {
+										name
+									}
+								}
+								user {
+									name
+								}
+						 }*/
+
+						//OR
+						/* 2)
+						 productID
+						 quantity
+						 */
+
+						// on add click, we can run the queries to add to cart..
+						// for guests
+
+						// when we already have stuff in cart, we can transfer guest cart items to
+						// logged in user cart and then
+						// delete guest cart
+
+					}}><ShoppingCartIcon />Add</Button>
 					<Button>More Info</Button>
 				</ButtonGroup>
 

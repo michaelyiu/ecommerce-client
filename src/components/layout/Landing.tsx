@@ -1,6 +1,8 @@
 // Library imports
 import React, { useContext } from "react";
 
+import { useQuery, useMutation } from '@apollo/react-hooks';
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -13,6 +15,17 @@ import Filter from "./Filter";
 import MainContent from "./MainContent";
 import Hidden from '@material-ui/core/Hidden';
 import PhoneCard from "./PhoneCard";
+
+import { ALL_PRODUCTS } from "./../../gql/queries/products";
+import { GET_CART } from "./../../gql/queries/cart";
+import { UPDATE_CART } from "./../../gql/mutations/cart";
+
+import { AuthContext } from "../../contexts/AuthContext";
+import { CartContext } from "../../contexts/CartContext";
+import { ProductContext } from "../../contexts/ProductContext";
+
+
+
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -57,7 +70,42 @@ const useStyles = makeStyles(theme => ({
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
+	const { isAuthenticated } = useContext(AuthContext);
+	const { cart } = useContext(CartContext);
+	const { products, setProducts } = useContext(ProductContext);
 	const fixedHeightCard = clsx(classes.card, classes.fixedHeight);
+
+	const { data: allProductsData } = useQuery(ALL_PRODUCTS, {
+		onCompleted() {
+			setProducts(allProductsData.allProducts);
+		}
+	})
+
+	const { data: cartData } = useQuery(GET_CART,
+		{
+			//cartData only works if there is a loggedIn user.
+			onCompleted() {
+				// setCart(cartData);
+			}
+		});
+
+	const [updateCart, { data: updateCartData }] = useMutation(UPDATE_CART)
+
+	//if cart doesnt exist and is not authenticated
+	// if (Object.keys(cart).length === 0 && !isAuthenticated) {
+	console.log("test")
+	// }
+
+	// updateCart()
+	// console.log(updateCartData)
+	// }
+	//if cart exists and is not authenticated
+
+	//if authenticated, remove guestCart
+	// if (isAuthenticated)
+
+
+
 
 	return (
 		<main className={classes.content}>
@@ -85,19 +133,13 @@ const Landing: React.FC = () => {
 					</Grid>
 					<Grid item xs={12} md={9} lg={9}>
 						<Grid container spacing={4}>
-							<Grid item xs={12} sm={6} md={4} lg={3}>
-
-								<PhoneCard />
-							</Grid>
-							<Grid item xs={12} sm={6} md={4} lg={3}>
-								<PhoneCard />
-							</Grid>
-							<Grid item xs={12} sm={6} md={4} lg={3}>
-								<PhoneCard />
-							</Grid>
-							<Grid item xs={12} sm={6} md={4} lg={3}>
-								<PhoneCard />
-							</Grid>
+							{
+								products.map(product => (
+									<Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
+										<PhoneCard  {...product} />
+									</Grid>
+								))
+							}
 							<Grid item xs={12}>
 								<Card className={fixedHeightCard} elevation={4}>
 									<MainContent />

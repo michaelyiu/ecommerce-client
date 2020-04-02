@@ -1,6 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useQuery } from '@apollo/react-hooks';
-import { GET_USERS, GET_USER } from "../gql/queries/auth";
 
 type SetAuth = () => void;
 type SetCurrentUser = (value: any) => void;

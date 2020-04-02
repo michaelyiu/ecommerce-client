@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { CartContext } from "../../contexts/CartContext";
 import { NavContext } from "../../contexts/NavContext";
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -32,12 +33,12 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = () => {
 	const classes = useStyles();
+
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
 	const { active, setActive } = useContext(NavContext);
+	// const { cartQuantity, setQuantity, addItem } = useContext(CartContext);
 
 	const onLogoutClick = () => {
-		console.log('hello')
-		// e.preventDefault();
 		localStorage.clear();
 		toggleAuth();
 	}
