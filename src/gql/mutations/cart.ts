@@ -19,10 +19,8 @@ const UPDATE_CART = gql`
 // `;
 
 const DELETE_CART = gql`
-	mutation deleteCart($cart_id: String!, $email: String!, $password: String!, $password2: String!) {
-		deleteCart(cart_id: $cart_id){
-    	email
-		}
+	mutation deleteCart($cart_id: String!) {
+		deleteCart(cart_id: $cart_id)
   }
 `
 
