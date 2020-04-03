@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,29 +12,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm } from "react-hook-form";
 
-import { useMutation } from '@apollo/react-hooks';
-import { SIGNIN_MUTATION } from "../../gql/mutations/auth";
-import { Redirect } from "react-router-dom";
 
-import { AuthContext } from './../../contexts/AuthContext';
+import * as LoginTypes from './../../gql/mutations/__generated__/signIn';
+
+import Copyright from "./../layout/Copyright";
 
 type FormData = {
-	// name: string;
 	email: string;
 	password: string;
 };
 
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="/">
-				MY Phones
-      </Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
+interface LoginFormProps {
+	login: (a: { variables: LoginTypes.signInVariables }) => void;
+	error?: JSX.Element
 }
 
 const useStyles = makeStyles(theme => ({
@@ -58,61 +48,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //Login form component
-const Login: React.FC = () => {
+const LoginForm: React.FC<LoginFormProps> = (props) => {
 	const classes = useStyles();
 	const [user, setUserLogin] = useState({});
 
 	const { register, handleSubmit } = useForm<FormData>();
 	const onSubmit = handleSubmit((data) => {
-		setUserLogin(data);
-		signIn();
+		setUserLogin(data); //do i need this
+		props.login({ variables: data })
 	});
 
-	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
 
-	const [signIn, { loading, data, error }] = useMutation(
-		SIGNIN_MUTATION,
-		{
-			variables: user,
-			onCompleted(data) {
-				if (data && data.signIn) {
-					toggleAuth();
-					window.localStorage.setItem('token', data.signIn.token)
-				}
-			},
-			onError(err) {
-				//need this here to suppress typescript issue with apollo graphqlErrors
-			}
-		}
-	)
-
-	function showErrors() {
-		if (!loading && error) {
-			console.log(error.graphQLErrors)
-			return (
-				<div>
-					{
-						error.graphQLErrors.map(({ extensions, message }, i) => (
-							// <h4 key={i}>{extensions && extensions.errors && extensions.errors.email ? extensions.errors.email : null}</h4>
-							<h4 key={i}>{message ? message : null}</h4>
-						))
-					}
-				</div>
-			)
-		}
-	}
-
-	// Store token if login is successful
-	if (data) {
-		window.localStorage.setItem('token', data.signIn.token)
-		window.localStorage.setItem('email', data.signIn.email)
-		// Redirect to home page
-		return <Redirect to='/' />
-	}
-
-	if (isAuthenticated) {
-		return <Redirect to='/' />
-	}
 
 
 	return (
@@ -167,7 +113,7 @@ const Login: React.FC = () => {
 						</Grid>
 					</Grid>
 				</form>
-				{showErrors()}
+				{props.error}
 			</div>
 			<Box mt={8}>
 				<Copyright />
@@ -177,4 +123,4 @@ const Login: React.FC = () => {
 	)
 }
 
-export default Login;
+export default LoginForm;

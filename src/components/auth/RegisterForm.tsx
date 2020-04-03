@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { useForm } from "react-hook-form";
 
-import { useMutation } from '@apollo/react-hooks';
-import { SIGNUP_MUTATION } from "../../gql/mutations/auth";
+
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -16,6 +15,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import * as RegisterTypes from './../../gql/mutations/__generated__/signUp';
+
+import Copyright from "./../layout/Copyright";
+
 type FormData = {
 	name: string;
 	email: string;
@@ -23,17 +26,9 @@ type FormData = {
 	password2: string;
 };
 
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="/">
-				MY Phones
-      </Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
+interface RegisterFormProps {
+	register: (a: { variables: RegisterTypes.signUpVariables }) => void;
+	error?: JSX.Element
 }
 
 const useStyles = makeStyles(theme => ({
@@ -57,23 +52,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // Register form component
-const Register: React.FC = () => {
+const RegisterForm: React.FC<RegisterFormProps> = (props) => {
+	console.log(props)
+
 	const classes = useStyles();
-	const [newUser, setNewUserData] = useState({});
 	const { register, handleSubmit, errors } = useForm<FormData>();
 
 	const onSubmit = handleSubmit((data) => {
-		console.log(data)
-		setNewUserData(data);
-		signUp();
+		props.register({ variables: data })
 	});
 
-	const [signUp, { loading, data, error }] = useMutation(
-		SIGNUP_MUTATION,
-		{
-			variables: newUser
-		}
-	)
+
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -132,7 +121,7 @@ const Register: React.FC = () => {
 								fullWidth
 								name="password2"
 								label="Confirm Password"
-								type="password2"
+								type="password"
 								id="password2"
 								inputRef={register}
 								autoComplete="current-password"
@@ -156,6 +145,7 @@ const Register: React.FC = () => {
 						</Grid>
 					</Grid>
 				</form>
+				{props.error}
 			</div>
 			<Box mt={5}>
 				<Copyright />
@@ -163,4 +153,4 @@ const Register: React.FC = () => {
 		</Container>
 	);
 }
-export default Register;
+export default RegisterForm;
