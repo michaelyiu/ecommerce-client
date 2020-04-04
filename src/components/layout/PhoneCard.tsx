@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 
+import { useMutation } from '@apollo/react-hooks';
+import { UPDATE_CART } from "../../gql/mutations/cart";
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -46,17 +49,15 @@ const useStyles = makeStyles(theme => ({
 
 })
 )
-// const test = () => {
-// 	console.log('test');
-// }
+
 
 const PhoneCard: React.FC<IProduct> = (props) => {
 	const classes = useStyles();
 
-	// const { cartQuantity, setQuantity } = useContext(CartContext);
+	//PhoneCard should have the updateCartData for add and remove
+	const [updateCart, { data: updateCartData }] = useMutation(UPDATE_CART)
 
 	return (
-		// <Grid item xs={12} sm={6} md={4} lg={3}>
 		<Card className={classes.card} elevation={4}>
 			<CardMedia
 				className={classes.media}
@@ -77,6 +78,10 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 					fullWidth={true}
 				>
 					<Button onClick={() => {
+						//updateCart will pass cartId and cartInput
+						// 1) updateCart on Landing first and store ID into context as string
+						// 2) updateCart HERE on PhoneCard with the new ID and cartInput object
+						updateCart()
 						//PRE everything
 						//if its a guest, when user visits the site, they should be assigned a cart right away
 						//where we can then use the cart_id assigned and returned to add and update the cart items
@@ -110,13 +115,14 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 						// logged in user cart and then
 						// delete guest cart
 
-					}}><ShoppingCartIcon />Add</Button>
+					}}><ShoppingCartIcon />
+						Add
+					</Button>
 					<Button>More Info</Button>
 				</ButtonGroup>
 
 			</CardContent>
 		</Card>
-		// </Grid>
 	)
 }
 

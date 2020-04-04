@@ -1,7 +1,8 @@
 
 import { gql } from "apollo-boost";
 
-const UPDATE_CART = gql`
+// for guests first time landing
+const NEW_CART = gql`
 	mutation updateCart {
 		updateCart{
 			id
@@ -9,14 +10,14 @@ const UPDATE_CART = gql`
   }
 `;
 
-// const UPDATE_CART = gql`
-// 	mutation updateCart($cart_id: String!, $cartInput: CartInput!) {
-// 		updateCart(cart_id: $cart_id, cartInput: $cartInput){
-//     	token
-// 			cart_id
-// 		}
-//   }
-// `;
+const UPDATE_CART = gql`
+	mutation updateCart($cart_id: String!, $cartInput: CartInput!) {
+		updateCart(cart_id: $cart_id, cartInput: $cartInput){
+    	token
+			cart_id
+		}
+  }
+`;
 
 const DELETE_CART = gql`
 	mutation deleteCart($cart_id: String!) {
@@ -25,6 +26,7 @@ const DELETE_CART = gql`
 `
 
 export {
+	NEW_CART,
 	UPDATE_CART,
 	DELETE_CART
 };

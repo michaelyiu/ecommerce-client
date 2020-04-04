@@ -10,19 +10,19 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
-import Search from "./Search";
-import Filter from "./Filter";
-import MainContent from "./MainContent";
+import Search from "../components/layout/Search";
+import Filter from "../components/layout/Filter";
+import MainContent from "../components/layout/MainContent";
 import Hidden from '@material-ui/core/Hidden';
-import PhoneCard from "./PhoneCard";
+import PhoneCard from "../components/layout/PhoneCard";
 
-import { ALL_PRODUCTS } from "./../../gql/queries/products";
-import { GET_CART } from "./../../gql/queries/cart";
-import { UPDATE_CART } from "./../../gql/mutations/cart";
+import { ALL_PRODUCTS } from "../gql/queries/products";
+import { GET_CART } from "../gql/queries/cart";
+import { NEW_CART } from "../gql/mutations/cart";
 
-import { AuthContext } from "../../contexts/AuthContext";
-import { CartContext } from "../../contexts/CartContext";
-import { ProductContext } from "../../contexts/ProductContext";
+import { AuthContext } from "../contexts/AuthContext";
+import { CartContext } from "../contexts/CartContext";
+import { ProductContext } from "../contexts/ProductContext";
 
 
 
@@ -75,25 +75,29 @@ const Landing: React.FC = () => {
 	const { products, setProducts } = useContext(ProductContext);
 	const fixedHeightCard = clsx(classes.card, classes.fixedHeight);
 
+	//allProducts query needs to be here 
 	const { data: allProductsData } = useQuery(ALL_PRODUCTS, {
 		onCompleted() {
 			setProducts(allProductsData.allProducts);
 		}
 	})
 
-	const { data: cartData } = useQuery(GET_CART,
-		{
-			//cartData only works if there is a loggedIn user.
-			onCompleted() {
-				// setCart(cartData);
-			}
-		});
 
-	const [updateCart, { data: updateCartData }] = useMutation(UPDATE_CART)
+	// const { data: cartData } = useQuery(GET_CART,
+	// {
+	//cartData only works if there is a loggedIn user.
+	// onCompleted() {
+	// setCart(cartData);
+	// }
+	// });
+
+	//NEW cart needs to be on the landing page since all the add item stuff is here.
+	const [newCart, { data: newCartData }] = useMutation(NEW_CART)
+	//new cart only if not authenticated 
 
 	//if cart doesnt exist and is not authenticated
 	// if (Object.keys(cart).length === 0 && !isAuthenticated) {
-	console.log("test")
+
 	// }
 
 	// updateCart()

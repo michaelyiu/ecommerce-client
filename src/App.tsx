@@ -14,9 +14,9 @@ import NavContextProvider from "./contexts/NavContext";
 import ProductContextProvider from "./contexts/ProductContext";
 
 // Component imports
-import Register from "./pages/register";
-import Login from "./pages/login";
-import Landing from "./components/layout/Landing";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Landing from "./pages/Landing";
 import NavBar from "./components/layout/NavBar";
 import MenuList from "./components/layout/MenuList";
 
