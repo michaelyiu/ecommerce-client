@@ -14,7 +14,6 @@ interface IAuth {
   addCurrentUser: SetCurrentUser;
 }
 
-
 export const AuthContext = createContext<IAuth>({
   isAuthenticated: false,
   currentUser: { name: '', email: '' },

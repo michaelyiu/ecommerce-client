@@ -7,8 +7,10 @@ interface Nav {
 	setActive: SetValue;
 }
 
-
-export const NavContext = createContext<Nav>({ active: false, setActive: (): void => { } });
+export const NavContext = createContext<Nav>({
+	active: false,
+	setActive: (): void => { }
+});
 
 const NavContextProvider: React.FC = (props) => {
 	const [active, setActive] = useState(false);

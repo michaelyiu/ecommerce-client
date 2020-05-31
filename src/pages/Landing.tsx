@@ -1,7 +1,7 @@
 // Library imports
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,99 +16,117 @@ import MainContent from "../components/layout/MainContent";
 import Hidden from '@material-ui/core/Hidden';
 import PhoneCard from "../components/layout/PhoneCard";
 
-import { ALL_PRODUCTS } from "../gql/queries/products";
+import { UPDATE_CART } from "../gql/mutations/cart";
 import { GET_CART } from "../gql/queries/cart";
-import { NEW_CART } from "../gql/mutations/cart";
-
+import { ALL_PRODUCTS } from "../gql/queries/products";
 import { AuthContext } from "../contexts/AuthContext";
 import { CartContext } from "../contexts/CartContext";
 import { ProductContext } from "../contexts/ProductContext";
 
+import * as ProductType from '../gql/queries/__generated__/allProducts';
+// import * as CartType from '../gql/queries/__generated__/cart';
+import * as UpdateCartType from '../gql/mutations/__generated__/updateCart';
+import { stripTypename } from "../lib/helpers";
 
 
-
-const useStyles = makeStyles(theme => ({
-	content: {
-		flexGrow: 1,
-		height: '100vh',
-		// overflow: 'auto', causes double vertical scroll bars..
-	},
-	container: {
-		paddingTop: theme.spacing(4),
-		paddingBottom: theme.spacing(4),
-	},
-	card: {
-		padding: theme.spacing(2),
-		display: 'flex',
-		overflow: 'auto',
-		flexDirection: 'column',
-		backgroundColor: '#F8F8F8',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	fixedHeight: {
-		height: 120,
-	},
-	fixedHeightFilter: {
-		height: 400,
-	},
-	item: {
-		flex: 1
-	},
-	cardContent: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	cardContainer: {
-		display: 'flex',
-		flexWrap: 'wrap'
-	}
-})
+const useStyles = makeStyles(theme =>
+	({
+		content: {
+			flexGrow: 1,
+			height: '100vh',
+			// overflow: 'auto', causes double vertical scroll bars..
+		},
+		container: {
+			paddingTop: theme.spacing(4),
+			paddingBottom: theme.spacing(4),
+		},
+		card: {
+			padding: theme.spacing(2),
+			display: 'flex',
+			overflow: 'auto',
+			flexDirection: 'column',
+			backgroundColor: '#F8F8F8',
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		fixedHeight: {
+			height: 120,
+		},
+		fixedHeightFilter: {
+			height: 400,
+		},
+		item: {
+			flex: 1
+		},
+		cardContent: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		cardContainer: {
+			display: 'flex',
+			flexWrap: 'wrap'
+		}
+	})
 )
 
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
 	const { isAuthenticated } = useContext(AuthContext);
-	const { cart } = useContext(CartContext);
+	const { addManyToCart } = useContext(CartContext);
 	const { products, setProducts } = useContext(ProductContext);
+
 	const fixedHeightCard = clsx(classes.card, classes.fixedHeight);
 
+	const cartData = window.localStorage.getItem('cart')!;
+	const cartItems = cartData !== null ? JSON.parse(cartData) : [];
+
 	//allProducts query needs to be here 
-	const { data: allProductsData } = useQuery(ALL_PRODUCTS, {
+	const { data: allProductsData } = useQuery<ProductType.allProducts>(ALL_PRODUCTS, {
 		onCompleted() {
-			setProducts(allProductsData.allProducts);
+			if (allProductsData) {
+				let products: any = allProductsData.allProducts //using any here since I cant match types here..
+				products = stripTypename(products);
+				setProducts(products);
+			}
 		}
 	})
 
+	const [getCart, { data: cartDataServer }] = useLazyQuery(GET_CART, {
+		onCompleted() {
+			const cartFromServer = cartDataServer.cart.orderedItems;
+			for (let i = 0; i < cartFromServer.length; i++) {
+				let newObj = cartFromServer[i].product;
+				newObj.quantity = cartFromServer[i].quantity;
+				cartItems.push(newObj)
+			}
 
-	// const { data: cartData } = useQuery(GET_CART,
-	// {
-	//cartData only works if there is a loggedIn user.
-	// onCompleted() {
-	// setCart(cartData);
-	// }
-	// });
+			addManyToCart(cartItems);
+		}
+	});
 
-	//NEW cart needs to be on the landing page since all the add item stuff is here.
-	const [newCart, { data: newCartData }] = useMutation(NEW_CART)
-	//new cart only if not authenticated 
+	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
 
-	//if cart doesnt exist and is not authenticated
-	// if (Object.keys(cart).length === 0 && !isAuthenticated) {
+	/* first visit */
+	//if not logged in, cart will be empty
+	//once logged in, cart will still be empty
 
-	// }
-
-	// updateCart()
-	// console.log(updateCartData)
-	// }
-	//if cart exists and is not authenticated
-
-	//if authenticated, remove guestCart
-	// if (isAuthenticated)
+	/* subsequent visits */
+	//if not logged in cart will be in localStorage
+	//once logged in, 
+	// 1) if localStorage is empty, we ping cartQuery and store into localStorage. 
+	// 2) If not empty, we should run updateCart, storing localStorage stuff into the DB
 
 
+	// const localStorageCart = localStorage.getItem('cart');
+
+
+	useEffect(() => {
+		if ((isAuthenticated && cartItems === null) || (isAuthenticated && cartItems.length === 0)) {
+			getCart()
+		}
+	}, [getCart, isAuthenticated])
 
 
 	return (
@@ -153,7 +171,7 @@ const Landing: React.FC = () => {
 					</Grid>
 				</Grid>
 			</Container>
-		</main >
+		</main>
 	);
 };
 

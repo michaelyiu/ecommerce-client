@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import { useMutation } from '@apollo/react-hooks';
-import { UPDATE_CART } from "../../gql/mutations/cart";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,15 +14,22 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
+import { AuthContext } from "../../contexts/AuthContext";
 import { CartContext } from "../../contexts/CartContext";
 
+import { UPDATE_CART } from "../../gql/mutations/cart";
+
+import * as UpdateCartType from '../../gql/mutations/__generated__/updateCart';
+import { stripTypename } from "../../lib/helpers";
+
 interface IProduct {
-	id?: String
-	name: String
-	price: Number
-	category: String
-	image: String
-	description: String
+	id?: string
+	name: string
+	price: number
+	category: string
+	image: string
+	description: string
+	quantity: number
 }
 const useStyles = makeStyles(theme => ({
 	media: {
@@ -54,9 +60,16 @@ const useStyles = makeStyles(theme => ({
 const PhoneCard: React.FC<IProduct> = (props) => {
 	const classes = useStyles();
 
-	//PhoneCard should have the updateCartData for add and remove
-	const [updateCart, { data: updateCartData }] = useMutation(UPDATE_CART)
+	const { isAuthenticated } = useContext(AuthContext);
+	const { cart, addToCart } = useContext(CartContext);
 
+	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
+
+
+	// useEffect(() => {
+	// 	if (isAuthenticated)
+	// 		updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
+	// }, [cart])
 	return (
 		<Card className={classes.card} elevation={4}>
 			<CardMedia
@@ -78,42 +91,9 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 					fullWidth={true}
 				>
 					<Button onClick={() => {
-						//updateCart will pass cartId and cartInput
-						// 1) updateCart on Landing first and store ID into context as string
-						// 2) updateCart HERE on PhoneCard with the new ID and cartInput object
-						updateCart()
-						//PRE everything
-						//if its a guest, when user visits the site, they should be assigned a cart right away
-						//where we can then use the cart_id assigned and returned to add and update the cart items
-						//PRE everything
-
-						//add to client's CartContext state first.. have an object
-						/* 1)
-						{
-								id: 123456
-								orderedItems {
-									quantity
-									product {
-										name
-									}
-								}
-								user {
-									name
-								}
-						 }*/
-
-						//OR
-						/* 2)
-						 productID
-						 quantity
-						 */
-
-						// on add click, we can run the queries to add to cart..
-						// for guests
-
-						// when we already have stuff in cart, we can transfer guest cart items to
-						// logged in user cart and then
-						// delete guest cart
+						addToCart(props);
+						if (isAuthenticated)
+							updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
 
 					}}><ShoppingCartIcon />
 						Add

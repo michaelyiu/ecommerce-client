@@ -1,29 +1,18 @@
 import React, { createContext, useState } from "react";
 
+import { Product } from './../types/types';
+
 type SetProducts = (value: any) => void;
 
-interface IProduct {
-	id: string
-	name: String
-	price: Number
-	category: String
-	image: String
-	description: String
-}
-
-// interface IProducts extends Array<IProduct> { }
-
-interface IProducts {
-	products: Array<IProduct>
+interface Products {
+	products: Array<Product>
 	setProducts: SetProducts
 }
 
-
-export const ProductContext = createContext<IProducts>({
+export const ProductContext = createContext<Products>({
 	products: [],
 	setProducts: (): void => { },
 })
-
 
 const ProductContextProvider: React.FC = props => {
 	const [products, setProducts] = useState(() => {
@@ -36,7 +25,6 @@ const ProductContextProvider: React.FC = props => {
 			{props.children}
 		</ProductContext.Provider>
 	);
-
 }
 
 export default ProductContextProvider;

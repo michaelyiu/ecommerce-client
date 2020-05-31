@@ -1,8 +1,6 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 
-
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 
 // Register form component
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
-	console.log(props)
 
 	const classes = useStyles();
 	const { register, handleSubmit, errors } = useForm<FormData>();

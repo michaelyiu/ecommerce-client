@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,8 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
 
-import { GET_CART } from "../../gql/queries/cart";
-import { NEW_CART } from "../../gql/mutations/cart";
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { CartContext } from "../../contexts/CartContext";
@@ -41,39 +38,15 @@ const NavBar = () => {
 	const classes = useStyles();
 
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+	const { clearCart } = useContext(CartContext);
 	const { active, setActive } = useContext(NavContext);
-	// const { cartQuantity, setQuantity, addItem } = useContext(CartContext);
 
 	const onLogoutClick = () => {
 		localStorage.clear();
+		clearCart();
 		toggleAuth();
 	}
 
-	// NavBar should have the cartQuery and store cartContext
-	const { data: cart } = useQuery(GET_CART, {
-		onCompleted() {
-			console.log(cart);
-			if (!cart) {
-				newCart()
-			}
-		}
-	});
-
-	const [newCart, { data: newCartData, loading, error }] = useMutation(NEW_CART, {
-		// onCompleted() {
-		// 	if (isAuthenticated){
-
-		// 	}
-		// }
-		onError(err) {
-
-		},
-		refetchQueries: [{ query: GET_CART }],
-		awaitRefetchQueries: true,
-	})
-	console.log(newCartData);
-
-	//maybe have a onEffect that runs once here
 
 	const authLinks = (
 		<Hidden smDown>

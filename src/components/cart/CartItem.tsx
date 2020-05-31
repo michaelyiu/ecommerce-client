@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
+import { Product } from './../../types/types';
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -33,25 +35,29 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 120
 	}
 }))
+
 //Cart Page
-const Cart: React.FC = () => {
+const Cart: React.FC<Product> = (props) => {
 	const classes = useStyles();
+	const total: string = Number(props.price * props.quantity).toFixed(2);
+
 	return (
 		<Card className={classes.root} elevation={0}>
 			<CardMedia
 				className={classes.imgCover}
+				// image={require(`${props.image}`)}
 				image={require('../../assets/samsung_s10_grey.jpg')}
 				title="Live from space album cover"
 			/>
 			<div className={classes.details}>
-				<Grid container direction="column" xs sm spacing={2}>
+				<Grid container direction="column" spacing={2}>
 					<Grid item xs>
 						{/* <CardContent className={classes.content}> */}
 						<Typography variant="h6">
-							Live From Space
+							{props.name}
 						</Typography>
 						<Typography variant="subtitle1" color="textSecondary">
-							Kuwhata
+							{props.description}
 						</Typography>
 						<FormControl
 						// className={classes.formControl}
@@ -59,7 +65,7 @@ const Cart: React.FC = () => {
 							<InputLabel id="qty-select-label">Quantity</InputLabel>
 							<Select
 								// labelId="qty-select-label"
-								value={1}
+								value={props.quantity}
 								id="qty-select"
 							>
 								<MenuItem value={1}>1</MenuItem>
@@ -78,7 +84,7 @@ const Cart: React.FC = () => {
 					</Grid>
 					<Grid item>
 						<Grid item>
-							<Typography color="textPrimary">$1000.00</Typography>
+							<Typography color="textPrimary">{total}</Typography>
 						</Grid>
 						<Grid item>
 							<Button>Remove</Button>
