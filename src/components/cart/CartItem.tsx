@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
@@ -11,6 +11,8 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
 import { Product } from './../../types/types';
+
+import { CartContext } from "./../../contexts/CartContext";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -36,10 +38,14 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+
 //Cart Page
 const Cart: React.FC<Product> = (props) => {
+	const { cart, editQuantity, removeFromCart } = useContext(CartContext);
+
 	const classes = useStyles();
 	const total: string = Number(props.price * props.quantity).toFixed(2);
+
 
 	return (
 		<Card className={classes.root} elevation={0}>
@@ -67,6 +73,7 @@ const Cart: React.FC<Product> = (props) => {
 								// labelId="qty-select-label"
 								value={props.quantity}
 								id="qty-select"
+								onChange={(e) => editQuantity(props.id, Number(e.target.value))}
 							>
 								<MenuItem value={1}>1</MenuItem>
 								<MenuItem value={2}>2</MenuItem>
@@ -87,7 +94,7 @@ const Cart: React.FC<Product> = (props) => {
 							<Typography color="textPrimary">{total}</Typography>
 						</Grid>
 						<Grid item>
-							<Button>Remove</Button>
+							<Button onClick={() => removeFromCart(props.id)}>Remove</Button>
 						</Grid>
 					</Grid>
 				</Grid>

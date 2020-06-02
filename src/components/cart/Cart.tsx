@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -45,6 +45,9 @@ const Cart: React.FC = () => {
 	const tax: string = Number(+formattedSubtotal * .13).toFixed(2);
 	const total: string = Number(+formattedSubtotal + +tax).toFixed(2);
 
+	useEffect(() => {
+
+	}, [cart])
 	return (
 		<main className={classes.content}>
 			<Container maxWidth="xl" className={classes.container}>
@@ -67,9 +70,12 @@ const Cart: React.FC = () => {
 
 								<TableBody>
 									<TableRow>
-										<Typography variant='h6'>
-											Summary
-										</Typography>
+										<TableCell>
+
+											<Typography variant='h6'>
+												Summary
+											</Typography>
+										</TableCell>
 
 									</TableRow>
 

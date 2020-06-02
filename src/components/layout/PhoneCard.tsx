@@ -66,10 +66,6 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
 
 
-	// useEffect(() => {
-	// 	if (isAuthenticated)
-	// 		updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
-	// }, [cart])
 	return (
 		<Card className={classes.card} elevation={4}>
 			<CardMedia
