@@ -75,7 +75,7 @@ const NavBar = () => {
 				<Typography variant="h6" className={classes.title}>
 					<Link to="/" className={classes.links}>
 						MY Phones
-				</Link>
+					</Link>
 				</Typography>
 				{isAuthenticated ? authLinks : guestLinks}
 				{/* <Hidden smDown>

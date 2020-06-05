@@ -13,7 +13,7 @@ export interface allProducts_allProducts {
   name: string;
   price: number;
   category: string;
-  image: string;
+  images: string;
   description: string;
 }
 

@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Divider from '@material-ui/core/Divider';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -21,16 +22,9 @@ import { UPDATE_CART } from "../../gql/mutations/cart";
 
 import * as UpdateCartType from '../../gql/mutations/__generated__/updateCart';
 import { stripTypename } from "../../lib/helpers";
+import { Product } from './../../types/types';
 
-interface IProduct {
-	id?: string
-	name: string
-	price: number
-	category: string
-	image: string
-	description: string
-	quantity: number
-}
+
 const useStyles = makeStyles(theme => ({
 	media: {
 		height: '80%',
@@ -57,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 )
 
 
-const PhoneCard: React.FC<IProduct> = (props) => {
+const PhoneCard: React.FC<Product> = (props) => {
 	const classes = useStyles();
 
 	const { isAuthenticated } = useContext(AuthContext);
@@ -70,7 +64,7 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 		<Card className={classes.card} elevation={4}>
 			<CardMedia
 				className={classes.media}
-				image={require('../../assets/samsung_s10.jpg')}
+				image={'https://res.cloudinary.com/themikecloud/image/upload/v1591332368/ecommerce/samsung_s10_black_back.png'}
 				title="test"
 			/>
 			<Divider />
@@ -94,7 +88,12 @@ const PhoneCard: React.FC<IProduct> = (props) => {
 					}}><ShoppingCartIcon />
 						Add
 					</Button>
-					<Button>More Info</Button>
+
+					<Button>
+						<Link href={`/item/${props.id}`} color="inherit" style={{ textDecoration: 'none' }} >
+							More Info
+						</Link>
+					</Button>
 				</ButtonGroup>
 
 			</CardContent>

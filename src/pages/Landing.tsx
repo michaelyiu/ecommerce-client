@@ -1,7 +1,7 @@
 // Library imports
 import React, { useContext, useEffect } from "react";
 
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +16,6 @@ import MainContent from "../components/layout/MainContent";
 import Hidden from '@material-ui/core/Hidden';
 import PhoneCard from "../components/layout/PhoneCard";
 
-import { UPDATE_CART } from "../gql/mutations/cart";
 import { GET_CART } from "../gql/queries/cart";
 import { ALL_PRODUCTS } from "../gql/queries/products";
 import { AuthContext } from "../contexts/AuthContext";
@@ -25,7 +24,6 @@ import { ProductContext } from "../contexts/ProductContext";
 
 import * as ProductType from '../gql/queries/__generated__/allProducts';
 // import * as CartType from '../gql/queries/__generated__/cart';
-import * as UpdateCartType from '../gql/mutations/__generated__/updateCart';
 import { stripTypename } from "../lib/helpers";
 
 
@@ -105,22 +103,6 @@ const Landing: React.FC = () => {
 			addManyToCart(cartItems);
 		}
 	});
-
-	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
-
-	/* first visit */
-	//if not logged in, cart will be empty
-	//once logged in, cart will still be empty
-
-	/* subsequent visits */
-	//if not logged in cart will be in localStorage
-	//once logged in, 
-	// 1) if localStorage is empty, we ping cartQuery and store into localStorage. 
-	// 2) If not empty, we should run updateCart, storing localStorage stuff into the DB
-
-
-	// const localStorageCart = localStorage.getItem('cart');
-
 
 	useEffect(() => {
 		if ((isAuthenticated && cartItems === null) || (isAuthenticated && cartItems.length === 0)) {

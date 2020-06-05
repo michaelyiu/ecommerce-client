@@ -7,11 +7,24 @@ const ALL_PRODUCTS = gql`
       name
 			price
 			category
-			image
+			images
+			description
+    }
+  }
+`
+
+const GET_PRODUCT = gql`
+  query product ($id: String!){
+    product(id: $id){
+      id
+      name
+			price
+			category
+			images
 			description
     }
   }
 `
 
 
-export { ALL_PRODUCTS }
+export { ALL_PRODUCTS, GET_PRODUCT }

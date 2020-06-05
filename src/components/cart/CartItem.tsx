@@ -52,7 +52,7 @@ const Cart: React.FC<Product> = (props) => {
 			<CardMedia
 				className={classes.imgCover}
 				// image={require(`${props.image}`)}
-				image={require('../../assets/samsung_s10_grey.jpg')}
+				image={'https://res.cloudinary.com/themikecloud/image/upload/v1591332368/ecommerce/samsung_s10_black_back.png'}
 				title="Live from space album cover"
 			/>
 			<div className={classes.details}>

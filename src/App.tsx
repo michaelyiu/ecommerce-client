@@ -21,7 +21,7 @@ import NavBar from "./components/layout/NavBar";
 import MenuList from "./components/layout/MenuList";
 
 import Cart from "./components/cart/Cart";
-
+import ItemDetail from './components/cart/ItemDetail';
 
 
 const App: React.FC = () => {
@@ -33,14 +33,13 @@ const App: React.FC = () => {
           <CartContextProvider>
             <NavContextProvider>
               <ProductContextProvider>
-
                 <Router>
-
                   <NavBar />
                   <Route exact path="/" component={Landing} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/cart" component={Cart} />
+                  <Route exact path="/item/:item_id" component={ItemDetail} />
                   <MenuList />
                 </Router>
               </ProductContextProvider>

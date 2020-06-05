@@ -14,6 +14,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
+
 const useStyles = makeStyles(theme => ({
 	content: {
 		flexGrow: 1,
@@ -58,9 +59,13 @@ const Cart: React.FC = () => {
 						</Typography>
 						<Grid container direction="column" spacing={4} className={classes.container}>
 							{
-								cart.map(item => (
-									<CartItem key={item.id} {...item} />
-								))
+								cart.length > 0 ?
+									cart.map(item => (
+										<CartItem key={item.id} {...item} />
+									))
+									: <Typography variant='subtitle1' align={"left"}>
+										No items has been added
+									</Typography>
 							}
 						</Grid>
 					</Grid>
@@ -95,23 +100,6 @@ const Cart: React.FC = () => {
 
 							</Table>
 						</TableContainer>
-						{/* <Typography variant='h6'>
-							Summary
-						</Typography>
-						<Grid container direction="column" spacing={4} className={classes.container}>
-
-							<Typography variant="subtitle1" color="textSecondary">
-								Subtotal ${formattedSubtotal}
-							</Typography>
-							<Typography variant="subtitle1" color="textSecondary">
-								Taxes ${tax}
-							</Typography>
-							<Divider />
-
-							<Typography variant="subtitle1" color="textSecondary">
-								Total ${total}
-							</Typography>
-						</Grid> */}
 					</Grid>
 				</Grid>
 			</Container>
