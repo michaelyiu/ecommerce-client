@@ -5,6 +5,9 @@ type SetCart = (value: any) => void;
 type ClearCart = () => void;
 type EditQuantity = (value: string, value2: number) => void;
 type RemoveFromCart = (id: string) => void;
+type SetQuantity = (value: any) => void;
+type SumQtyCart = () => void;
+
 
 interface Cart {
 	cart: Product[]
@@ -13,6 +16,9 @@ interface Cart {
 	clearCart: ClearCart;
 	editQuantity: EditQuantity;
 	removeFromCart: RemoveFromCart;
+	quantity: number;
+	setQuantity: SetQuantity;
+	sumQtyCart: SumQtyCart;
 }
 
 export const CartContext = createContext<Cart>({
@@ -21,7 +27,10 @@ export const CartContext = createContext<Cart>({
 	addManyToCart: (): void => { },
 	clearCart: (): void => { },
 	editQuantity: (): void => { },
-	removeFromCart: (): void => { }
+	removeFromCart: (): void => { },
+	quantity: 0,
+	setQuantity: (): void => { },
+	sumQtyCart: (): void => { }
 })
 
 const CartContextProvider: React.FC = props => {
@@ -29,6 +38,11 @@ const CartContextProvider: React.FC = props => {
 	const [cart, setCart] = useState(() => {
 		const localData = localStorage.getItem('cart');
 		return localData ? JSON.parse(localData) : [];
+	})
+
+	const [quantity, setQuantity] = useState(() => {
+		const localData = localStorage.getItem('quantity');
+		return localData ? JSON.parse(localData) : 0;
 	})
 
 	const addToCart = (item: Product) => {
@@ -71,22 +85,28 @@ const CartContextProvider: React.FC = props => {
 	}
 
 	const removeFromCart = (id: string) => {
-		console.log(cart);
 		const cartAfterRemoval = cart.splice(cart.findIndex((item: Product) => id), 1)
-		// const cartAfterRemoval = cart.filter((item: Product) => item.id !== id);
-		// console.log(cartAfterRemoval)
 		setCart(cart.splice(0, cart.length, ...cartAfterRemoval))
 		console.log(cart)
+	}
+
+	const sumQtyCart = () => {
+		let sum: number = 0;
+		for (let i = 0; i < cart.length; i++) {
+			sum = sum + +cart[i].quantity
+		}
+		setQuantity(sum.toString());
 	}
 
 
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
-
+	useEffect(() => {
+		localStorage.setItem('quantity', JSON.stringify(quantity))
+	}, [quantity])
 	return (
-		// <CartContext.Provider value={{ cart, changeCart }}>
-		<CartContext.Provider value={{ cart, addToCart, addManyToCart, clearCart, editQuantity, removeFromCart }}>
+		<CartContext.Provider value={{ cart, addToCart, addManyToCart, clearCart, editQuantity, removeFromCart, quantity, setQuantity, sumQtyCart }}>
 			{props.children}
 		</CartContext.Provider>
 	)

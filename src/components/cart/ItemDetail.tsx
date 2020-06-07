@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { useParams } from 'react-router-dom';
 
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -9,11 +9,18 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 
+import { UPDATE_CART } from "../../gql/mutations/cart";
 import { GET_PRODUCT } from "../../gql/queries/products";
+import { stripTypename } from "../../lib/helpers";
 import { Product } from './../../types/types';
 import { AuthContext } from "../../contexts/AuthContext";
+import { CartContext } from "../../contexts/CartContext";
+
+import * as UpdateCartType from '../../gql/mutations/__generated__/updateCart';
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -63,6 +70,9 @@ const useStyles = makeStyles(theme => ({
 		height: '150px',
 		objectFit: 'cover',
 	},
+	infoBlock: {
+		padding: '0 50px'
+	},
 
 	imgChooser: {
 		display: 'flex',
@@ -96,17 +106,20 @@ const useStyles = makeStyles(theme => ({
 
 const ItemDetail: React.FC<Product> = (props) => {
 	const classes = useStyles();
+
+	const { isAuthenticated } = useContext(AuthContext);
+	const { cart, addToCart } = useContext(CartContext);
+
 	const { item_id } = useParams();
 	let productImage = useRef<HTMLImageElement>(null);
+
+	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
 
 	const { data } = useQuery(GET_PRODUCT, {
 		variables: { id: item_id }
 	});
 
-	if (data)
-		console.log(data.product);
-
-	const clickity = (img: string) => {
+	const switchImage = (img: string) => {
 		// product
 		if (productImage && productImage.current)
 			productImage.current.src = img
@@ -117,7 +130,7 @@ const ItemDetail: React.FC<Product> = (props) => {
 				<Grid spacing={4} container className={classes.container}>
 					<Grid item xs={4} md={3} lg={3} className={classes.imgChooser}>
 						{data ? data.product.images.map((img: string) => (
-							<Card key={img} elevation={4} className={classes.productImgChoice} onClick={() => clickity(img)}>
+							<Card key={img} elevation={4} className={classes.productImgChoice} onClick={() => switchImage(img)}>
 								<img src={img} alt='the phone itself' className={classes.choiceImg} />
 							</Card>
 						)
@@ -131,8 +144,25 @@ const ItemDetail: React.FC<Product> = (props) => {
 						</Card>
 					</Grid>
 
-					<Grid item xs={12} md={12} lg={12} >
-						{data ? data.product.description : null}
+					<Grid item xs={12} md={12} lg={4}>
+						<Card elevation={4} className={classes.infoBlock}>
+							<Typography>
+								{data ? data.product.name : null}
+							</Typography>
+							<Typography>
+								{data ? data.product.price : null}
+							</Typography>
+							<Typography>
+								{data ? data.product.description : null}
+							</Typography>
+							{/* maybe add color option here for extra */}
+						</Card>
+						<Button onClick={() => {
+							if (data)
+								addToCart(data.product);
+							if (isAuthenticated)
+								updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
+						}}>Add To Cart</Button>
 					</Grid>
 
 				</Grid>

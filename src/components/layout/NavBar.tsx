@@ -29,8 +29,24 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 	},
 	links: {
+		position: 'relative',
 		textDecoration: 'none',
 		color: 'white'
+	},
+	cartJewel: {
+		display: 'block',
+		textAlign: 'center',
+		width: '16px',
+		height: '16px',
+		position: 'absolute',
+		top: '-6px',
+		right: '-6px',
+		borderRadius: '50%',
+		paddingTop: '1px',
+		lineHeight: '12px',
+		fontSize: '12px',
+		color: '#fff',
+		background: '#fa5400',
 	}
 }));
 
@@ -38,20 +54,20 @@ const NavBar = () => {
 	const classes = useStyles();
 
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
-	const { clearCart } = useContext(CartContext);
+	const { clearCart, sumQtyCart, quantity } = useContext(CartContext);
 	const { active, setActive } = useContext(NavContext);
-
+	sumQtyCart();
 	const onLogoutClick = () => {
 		localStorage.clear();
 		clearCart();
 		toggleAuth();
 	}
 
-
 	const authLinks = (
 		<Hidden smDown>
 			<Link to="/cart" className={classes.links}>
 				<ShoppingCartIcon />
+				<span className={classes.cartJewel}>{quantity}</span>
 			</Link>
 			<Button component={Link} to="/" color="inherit"
 				onClick={onLogoutClick}
@@ -63,6 +79,7 @@ const NavBar = () => {
 		<Hidden smDown>
 			<Link to="/cart" className={classes.links}>
 				<ShoppingCartIcon />
+				<span className={classes.cartJewel}></span>
 			</Link>
 			<Button component={Link} to="/register" color="inherit">Register</Button>
 			<Button component={Link} to="/login" color="inherit">Login</Button>

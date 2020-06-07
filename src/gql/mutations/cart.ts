@@ -21,7 +21,7 @@ const UPDATE_CART = gql`
 					id
 					category
 					description
-					image
+					images
 					name
 					price
 				}
