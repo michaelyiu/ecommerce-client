@@ -52,14 +52,11 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		maxWidth: '300px',
 		height: '100%',
-		// objectFit: 'contain'
-
 	},
 	productImgChoice: {
 		height: '150px',
 		maxWidth: '150px',
 		minWidth: '75px',
-		// width: '150px',
 		margin: '10px',
 		width: '50%',
 		textAlign: 'center'
