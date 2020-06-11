@@ -16,7 +16,7 @@ import { stripTypename } from "./../lib/helpers";
 export default function Login() {
 
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
-	const { addManyToCart } = useContext(CartContext);
+	const { addManyToCart, sumQtyCart } = useContext(CartContext);
 
 	const cartData = window.localStorage.getItem('cart')!;
 	const cartItems = cartData !== null ? JSON.parse(cartData) : [];
@@ -39,11 +39,12 @@ export default function Login() {
 
 					//if local storage cart has items, we updateCart in db
 					if (cartItems.length > 0) {
+						console.log(data)
 						updateCart({ variables: { cartInput: { orderedItems: stripTypename(cartItems) } } })
 						addManyToCart(cartItems);
 					}
 
-
+					console.log(data)
 					return <Redirect to='/' />
 				}
 			},

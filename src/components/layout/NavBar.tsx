@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 
 import { Link } from 'react-router-dom';
@@ -56,11 +56,12 @@ const NavBar = () => {
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
 	const { clearCart, sumQtyCart, quantity } = useContext(CartContext);
 	const { active, setActive } = useContext(NavContext);
-	sumQtyCart();
+
 	const onLogoutClick = () => {
 		localStorage.clear();
 		clearCart();
 		toggleAuth();
+		sumQtyCart();
 	}
 
 	const authLinks = (
@@ -79,12 +80,16 @@ const NavBar = () => {
 		<Hidden smDown>
 			<Link to="/cart" className={classes.links}>
 				<ShoppingCartIcon />
-				<span className={classes.cartJewel}></span>
+				<span className={classes.cartJewel}>{quantity}</span>
 			</Link>
 			<Button component={Link} to="/register" color="inherit">Register</Button>
 			<Button component={Link} to="/login" color="inherit">Login</Button>
 		</Hidden>
 	);
+
+	useEffect(() => {
+		sumQtyCart();
+	}, [quantity, sumQtyCart])
 
 	return (
 		<AppBar position="static" style={{ background: '#2E3B55' }}>

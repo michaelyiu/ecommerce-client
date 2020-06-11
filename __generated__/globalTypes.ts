@@ -7,6 +7,17 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum AvailableBrands {
+  APPLE = "APPLE",
+  HTC = "HTC",
+  HUAWEI = "HUAWEI",
+  LENOVO = "LENOVO",
+  ONEPLUS = "ONEPLUS",
+  SAMSUNG = "SAMSUNG",
+  SONY = "SONY",
+  XIAOMI = "XIAOMI",
+}
+
 export interface CartInput {
   orderedItems?: ProductInput[] | null;
 }
@@ -16,9 +27,10 @@ export interface ProductInput {
   category: string;
   name: string;
   price: number;
-  image: string;
+  images: string[];
   description: string;
   quantity?: number | null;
+  brand: AvailableBrands;
 }
 
 //==============================================================

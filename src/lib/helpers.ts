@@ -13,6 +13,7 @@ export function stripTypename(input: Product[]): Product[] {
 			images: item.images,
 			description: item.description,
 			quantity: item.quantity,
+			brand: item.brand
 		}))
 		return newProdList;
 	}

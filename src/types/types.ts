@@ -22,4 +22,27 @@ export interface Product {
 	images: [string]
 	description: string
 	quantity: number
+	brand: string
 }
+
+export enum AvailableBrands {
+	APPLE,
+	HTC,
+	HUAWEI,
+	LENOVO,
+	ONEPLUS,
+	SAMSUNG,
+	SONY,
+	XIAOMI
+}
+
+export const BrandList = [
+	'APPLE',
+	'HTC',
+	'HUAWEI',
+	'LENOVO',
+	'ONEPLUS',
+	'SAMSUNG',
+	'SONY',
+	'XIAOMI'
+]

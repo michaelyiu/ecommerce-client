@@ -10,7 +10,7 @@ type SumQtyCart = () => void;
 
 
 interface Cart {
-	cart: Product[]
+	cart: Product[];
 	addToCart: SetCart;
 	addManyToCart: SetCart;
 	clearCart: ClearCart;
@@ -95,16 +95,18 @@ const CartContextProvider: React.FC = props => {
 		for (let i = 0; i < cart.length; i++) {
 			sum = sum + +cart[i].quantity
 		}
-		setQuantity(sum.toString());
+		setQuantity(sum);
 	}
 
 
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
+
 	useEffect(() => {
 		localStorage.setItem('quantity', JSON.stringify(quantity))
 	}, [quantity])
+
 	return (
 		<CartContext.Provider value={{ cart, addToCart, addManyToCart, clearCart, editQuantity, removeFromCart, quantity, setQuantity, sumQtyCart }}>
 			{props.children}

@@ -11,8 +11,9 @@ const GET_CART = gql`
 					name
 					price
 					category
-					image
+					images
 					description
+					brand
 				}
 			}
 			user {

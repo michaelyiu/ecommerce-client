@@ -54,9 +54,9 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
 	// const [setUserLogin] = useState({});
 
 	const { register, handleSubmit } = useForm<FormData>();
-	const onSubmit = handleSubmit((data) => {
+	const onSubmit = handleSubmit(async (data) => {
 		// setUserLogin(data); //do i need this
-		props.login({ variables: data })
+		await props.login({ variables: data })
 	});
 
 

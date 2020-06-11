@@ -9,6 +9,7 @@ const ALL_PRODUCTS = gql`
 			category
 			images
 			description
+      brand
     }
   }
 `
@@ -22,6 +23,7 @@ const GET_PRODUCT = gql`
 			category
 			images
 			description
+      brand
     }
   }
 `

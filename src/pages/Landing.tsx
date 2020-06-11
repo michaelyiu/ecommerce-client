@@ -1,5 +1,5 @@
 // Library imports
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
@@ -72,8 +72,10 @@ const useStyles = makeStyles(theme =>
 const Landing: React.FC = () => {
 	const classes = useStyles();
 	const { isAuthenticated } = useContext(AuthContext);
-	const { addManyToCart } = useContext(CartContext);
-	const { products, setProducts } = useContext(ProductContext);
+	const { addManyToCart, sumQtyCart, quantity } = useContext(CartContext);
+	const { products, setProducts, searchResult, filterResult, setFilter, setSearch } = useContext(ProductContext);
+	const [filterValue, setFilterValue] = useState('');
+	const [searchValue, setSearchValue] = useState('');
 
 	const fixedHeightCard = clsx(classes.card, classes.fixedHeight);
 
@@ -87,6 +89,7 @@ const Landing: React.FC = () => {
 				let products: any = allProductsData.allProducts //using any here since I cant match types here..
 				products = stripTypename(products);
 				setProducts(products);
+				sumQtyCart();
 			}
 		}
 	})
@@ -104,11 +107,74 @@ const Landing: React.FC = () => {
 		}
 	});
 
+	//deals with child Filter component
+	const filterChange = (value: React.ChangeEvent<{}>, newValue: string) => {
+		let results = [];
+		//if same filter is clicked in succession, the filter is removed
+		//else proceed with normal filter
+		if (newValue === filterValue) {
+			setFilter([]);
+			setFilterValue('')
+
+
+		} else {
+
+			for (let i = 0; i < products.length; i++) {
+				if (products[i].brand.toLowerCase().includes(newValue.toLowerCase()))
+					results.push(products[i])
+			}
+			setFilter(results);
+			setFilterValue(newValue);
+		}
+	}
+
+	//deals with child Search component
+	const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let searchResults = [];
+		for (let i = 0; i < products.length; i++) {
+			if (products[i].name.toLowerCase().includes(e.target.value.toLowerCase()))
+				searchResults.push(products[i])
+		}
+		console.log(e.target.value)
+		setSearch(searchResults);
+		setSearchValue(e.target.value);
+	}
+
+	const filterSearch = () => {
+		let arrayToRender = [];
+		if ((searchValue.length === 0 && filterValue.length === 0)) {
+			arrayToRender = [...products];
+		}
+		else if ((searchResult.length === 0 && filterResult.length === 0) || (searchValue.length > 0 && searchResult.length === 0 && filterValue.length > 0)) {
+			arrayToRender = [];
+			return (<div>NO RESULTS FOUND</div>)
+		}
+		else if (searchResult.length === 0 && filterResult.length > 0) {
+			arrayToRender = [...filterResult];
+		}
+		else if (searchResult.length > 0 && filterResult.length === 0) {
+			arrayToRender = [...searchResult];
+		}
+		else {
+			console.log(products);
+			arrayToRender = searchResult.filter((searchProduct) =>
+				filterResult.some(filteredProduct => filteredProduct.id === searchProduct.id)
+			)
+		}
+		return arrayToRender.map(
+			(product: any) => (
+				<Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
+					<PhoneCard  {...product} />
+				</Grid>
+			)
+		)
+	}
+
 	useEffect(() => {
 		if ((isAuthenticated && cartItems === null) || (isAuthenticated && cartItems.length === 0)) {
 			getCart()
 		}
-	}, [getCart, isAuthenticated])
+	}, [getCart, isAuthenticated, quantity])
 
 
 	return (
@@ -121,14 +187,14 @@ const Landing: React.FC = () => {
 								<Grid className={classes.item} item>
 									<Card className={fixedHeightCard} elevation={4}>
 										<CardContent className={classes.cardContent}>
-											<Search />
+											<Search searchChange={searchChange} />
 										</CardContent>
 									</Card>
 								</Grid>
 								<Grid className={classes.item} item>
 									<Card className={`${classes.fixedHeightFilter} ${classes.card}`} elevation={4}>
 										<CardContent className={classes.cardContent}>
-											<Filter />
+											<Filter filterChange={filterChange} value={filterValue} />
 										</CardContent>
 									</Card>
 								</Grid>
@@ -138,11 +204,7 @@ const Landing: React.FC = () => {
 					<Grid item xs={12} md={9} lg={9}>
 						<Grid container spacing={4}>
 							{
-								products.map(product => (
-									<Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
-										<PhoneCard  {...product} />
-									</Grid>
-								))
+								filterSearch()
 							}
 							<Grid item xs={12}>
 								<Card className={fixedHeightCard} elevation={4}>

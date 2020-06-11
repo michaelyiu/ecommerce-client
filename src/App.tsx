@@ -30,8 +30,8 @@ const App: React.FC = () => {
     <div className="App">
       <ApolloProvider client={client}>
         <AuthContextProvider>
-          <CartContextProvider>
-            <NavContextProvider>
+          <NavContextProvider>
+            <CartContextProvider>
               <ProductContextProvider>
                 <Router>
                   <NavBar />
@@ -43,8 +43,8 @@ const App: React.FC = () => {
                   <MenuList />
                 </Router>
               </ProductContextProvider>
-            </NavContextProvider>
-          </CartContextProvider>
+            </CartContextProvider>
+          </NavContextProvider>
         </AuthContextProvider>
       </ApolloProvider>
     </div>

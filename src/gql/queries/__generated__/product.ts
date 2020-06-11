@@ -6,10 +6,10 @@
 import { AvailableBrands } from "./../../../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL query operation: allProducts
+// GraphQL query operation: product
 // ====================================================
 
-export interface allProducts_allProducts {
+export interface product_product {
   __typename: "Product";
   id: string;
   name: string;
@@ -20,6 +20,10 @@ export interface allProducts_allProducts {
   brand: AvailableBrands;
 }
 
-export interface allProducts {
-  allProducts: (allProducts_allProducts | null)[] | null;
+export interface product {
+  product: product_product | null;
+}
+
+export interface productVariables {
+  id: string;
 }

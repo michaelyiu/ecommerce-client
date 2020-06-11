@@ -24,6 +24,7 @@ const UPDATE_CART = gql`
 					images
 					name
 					price
+					brand
 				}
 				quantity
 			}

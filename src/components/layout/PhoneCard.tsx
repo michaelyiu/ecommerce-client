@@ -65,7 +65,7 @@ const PhoneCard: React.FC<Product> = (props) => {
 			<CardMedia
 				className={classes.media}
 				image={'https://res.cloudinary.com/themikecloud/image/upload/v1591332368/ecommerce/samsung_s10_black_back.png'}
-				title="test"
+				title={props.name}
 			/>
 			<Divider />
 			{/* card content here maybe set size to equal 100% width */}
@@ -80,10 +80,10 @@ const PhoneCard: React.FC<Product> = (props) => {
 					aria-label="text primary button group"
 					fullWidth={true}
 				>
-					<Button onClick={() => {
+					<Button onClick={async () => {
 						addToCart(props);
 						if (isAuthenticated)
-							updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
+							await updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
 
 					}}><ShoppingCartIcon />
 						Add
