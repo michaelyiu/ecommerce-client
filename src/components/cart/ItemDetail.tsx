@@ -1,26 +1,24 @@
 import React, { useRef, useContext } from "react";
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import {
+	makeStyles,
+	Container, Grid, Card,
+	Typography,
+	Button
+} from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-
-
-import { UPDATE_CART } from "../../gql/mutations/cart";
-import { GET_PRODUCT } from "../../gql/queries/products";
-import { stripTypename } from "../../lib/helpers";
-import { Product } from './../../types/types';
 import { AuthContext } from "../../contexts/AuthContext";
 import { CartContext } from "../../contexts/CartContext";
 
+import { UPDATE_CART } from "../../gql/mutations/cart";
+import { GET_PRODUCT } from "../../gql/queries/products";
+
+import { Product } from './../../types/types';
 import * as UpdateCartType from '../../gql/mutations/__generated__/updateCart';
+
+import { stripTypename } from "../../lib/helpers";
 
 const useStyles = makeStyles(theme => ({
 	content: {

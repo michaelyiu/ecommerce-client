@@ -1,18 +1,14 @@
 import React, { useContext } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import InputLabel from '@material-ui/core/InputLabel'; import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-
-import { Product } from './../../types/types';
+import {
+	makeStyles,
+	Grid, Card, CardMedia,
+	Typography,
+	FormControl, InputLabel, MenuItem, Select, Button
+} from '@material-ui/core';
 
 import { CartContext } from "./../../contexts/CartContext";
+import { Product } from './../../types/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -41,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 //Cart Page
 const Cart: React.FC<Product> = (props) => {
-	const { cart, editQuantity, removeFromCart } = useContext(CartContext);
+	const { editQuantity, removeFromCart } = useContext(CartContext);
 
 	const classes = useStyles();
 	const total: string = Number(props.price * props.quantity).toFixed(2);
@@ -58,7 +54,6 @@ const Cart: React.FC<Product> = (props) => {
 			<div className={classes.details}>
 				<Grid container direction="column" spacing={2}>
 					<Grid item xs>
-						{/* <CardContent className={classes.content}> */}
 						<Typography variant="h6">
 							{props.name}
 						</Typography>
@@ -87,7 +82,6 @@ const Cart: React.FC<Product> = (props) => {
 								<MenuItem value={10}>10</MenuItem>
 							</Select>
 						</FormControl>
-						{/* </CardContent> */}
 					</Grid>
 					<Grid item>
 						<Grid item>

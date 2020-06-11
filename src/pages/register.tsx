@@ -1,13 +1,13 @@
 import React from 'react';
-
+import { Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/react-hooks';
+
 import { SIGNUP_MUTATION } from "../gql/mutations/auth";
+
 import RegisterForm from "../components/auth/RegisterForm";
+import Spinner from '../components/common/Spinner';
 
 import * as RegisterTypes from '../gql/mutations/__generated__/signUp';
-
-import { Redirect } from "react-router-dom";
-import Spinner from '../components/common/Spinner';
 
 export default function Register() {
 	const [signUp, { loading, data, error }] = useMutation<RegisterTypes.signUp, RegisterTypes.signUpVariables>(

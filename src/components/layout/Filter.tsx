@@ -1,11 +1,11 @@
 // Library imports
 import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
-
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import {
+	makeStyles,
+	Typography,
+	Tabs, Tab
+} from '@material-ui/core';
 
 import { BrandList } from '../../types/types';
 
@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	tab: {
 		minHeight: '16px',
-		// padding: '6px 0'
 	}
 }));
 

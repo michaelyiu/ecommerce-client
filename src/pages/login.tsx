@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/react-hooks';
+
 import { SIGNIN_MUTATION } from "../gql/mutations/auth";
 import { UPDATE_CART } from "../gql/mutations/cart";
-import * as LoginTypes from '../gql/mutations/__generated__/signIn';
 
 import LoginForm from "../components/auth/LoginForm";
 import Spinner from '../components/common/Spinner';
@@ -11,12 +11,13 @@ import Spinner from '../components/common/Spinner';
 import { AuthContext } from '../contexts/AuthContext';
 import { CartContext } from '../contexts/CartContext';
 
+import * as LoginTypes from '../gql/mutations/__generated__/signIn';
 import { stripTypename } from "./../lib/helpers";
 
 export default function Login() {
 
 	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
-	const { addManyToCart, sumQtyCart } = useContext(CartContext);
+	const { addManyToCart } = useContext(CartContext);
 
 	const cartData = window.localStorage.getItem('cart')!;
 	const cartItems = cartData !== null ? JSON.parse(cartData) : [];

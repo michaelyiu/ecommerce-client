@@ -1,30 +1,27 @@
 // Library imports
 import React, { useContext, useEffect, useState } from "react";
-
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import {
+	makeStyles,
+	Container, Grid, Card, CardContent,
+	Hidden
+} from '@material-ui/core';
 
-import Search from "../components/layout/Search";
-import Filter from "../components/layout/Filter";
-import MainContent from "../components/layout/MainContent";
-import Hidden from '@material-ui/core/Hidden';
 import PhoneCard from "../components/layout/PhoneCard";
+import Filter from "../components/layout/Filter";
+import Search from "../components/layout/Search";
 
 import { GET_CART } from "../gql/queries/cart";
 import { ALL_PRODUCTS } from "../gql/queries/products";
+
 import { AuthContext } from "../contexts/AuthContext";
 import { CartContext } from "../contexts/CartContext";
 import { ProductContext } from "../contexts/ProductContext";
 
 import * as ProductType from '../gql/queries/__generated__/allProducts';
-// import * as CartType from '../gql/queries/__generated__/cart';
 import { stripTypename } from "../lib/helpers";
+import clsx from 'clsx';
 
 
 const useStyles = makeStyles(theme =>
@@ -71,9 +68,13 @@ const useStyles = makeStyles(theme =>
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
+
+	/* context variables */
 	const { isAuthenticated } = useContext(AuthContext);
 	const { addManyToCart, sumQtyCart, quantity } = useContext(CartContext);
 	const { products, setProducts, searchResult, filterResult, setFilter, setSearch } = useContext(ProductContext);
+	/* context variables */
+
 	const [filterValue, setFilterValue] = useState('');
 	const [searchValue, setSearchValue] = useState('');
 
@@ -115,10 +116,7 @@ const Landing: React.FC = () => {
 		if (newValue === filterValue) {
 			setFilter([]);
 			setFilterValue('')
-
-
 		} else {
-
 			for (let i = 0; i < products.length; i++) {
 				if (products[i].brand.toLowerCase().includes(newValue.toLowerCase()))
 					results.push(products[i])
@@ -135,28 +133,33 @@ const Landing: React.FC = () => {
 			if (products[i].name.toLowerCase().includes(e.target.value.toLowerCase()))
 				searchResults.push(products[i])
 		}
-		console.log(e.target.value)
 		setSearch(searchResults);
 		setSearchValue(e.target.value);
 	}
 
+	// method to render filters and searches
 	const filterSearch = () => {
 		let arrayToRender = [];
+		//if the search bar is empty and a filter hasn't been selected, all products are rendered
 		if ((searchValue.length === 0 && filterValue.length === 0)) {
 			arrayToRender = [...products];
 		}
+		//else if the result arrays come up empty or if a filter is chosen and a search doesnt come up with something.. then no results will be shown
+		//ex. search for Iphone, and the filter 'Samsung' is selected
 		else if ((searchResult.length === 0 && filterResult.length === 0) || (searchValue.length > 0 && searchResult.length === 0 && filterValue.length > 0)) {
 			arrayToRender = [];
 			return (<div>NO RESULTS FOUND</div>)
 		}
+		// handles selected filter render
 		else if (searchResult.length === 0 && filterResult.length > 0) {
 			arrayToRender = [...filterResult];
 		}
+		//handles search bar render
 		else if (searchResult.length > 0 && filterResult.length === 0) {
 			arrayToRender = [...searchResult];
 		}
+		//when both search and filter has items in common
 		else {
-			console.log(products);
 			arrayToRender = searchResult.filter((searchProduct) =>
 				filterResult.some(filteredProduct => filteredProduct.id === searchProduct.id)
 			)
@@ -206,11 +209,7 @@ const Landing: React.FC = () => {
 							{
 								filterSearch()
 							}
-							<Grid item xs={12}>
-								<Card className={fixedHeightCard} elevation={4}>
-									<MainContent />
-								</Card>
-							</Grid>
+
 						</Grid>
 					</Grid>
 				</Grid>

@@ -1,19 +1,15 @@
 import React, { useContext, useEffect } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { Typography } from "@material-ui/core";
+import {
+	makeStyles,
+	Container, Grid,
+	Typography,
+	Table, TableBody, TableCell, TableContainer, TableRow
+} from '@material-ui/core';
 
 import CartItem from "./CartItem";
 
 import { CartContext } from "./../../contexts/CartContext";
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -49,6 +45,7 @@ const Cart: React.FC = () => {
 	useEffect(() => {
 
 	}, [cart])
+
 	return (
 		<main className={classes.content}>
 			<Container maxWidth="xl" className={classes.container}>

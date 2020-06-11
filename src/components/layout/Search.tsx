@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { fade, makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import {
+	fade, makeStyles,
+	Typography,
+	InputBase
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-
-import { ProductContext } from "./../../contexts/ProductContext";
-
 
 export interface SearchFunction {
 	searchChange: (value: React.ChangeEvent<HTMLInputElement>) => void
@@ -57,18 +56,8 @@ const useStyles = makeStyles(theme =>
 
 
 const Search: React.FC<SearchFunction> = (props) => {
-	const { products, setSearch } = useContext(ProductContext);
 	const classes = useStyles();
 
-	// const onChange = (e: any) => {
-	// 	let searchResults = [];
-	// 	for (let i = 0; i < products.length; i++) {
-	// 		if (products[i].name.toLowerCase().includes(e.target.value.toLowerCase()))
-	// 			searchResults.push(products[i])
-	// 	}
-
-	// 	setSearch(searchResults);
-	// }
 	return (
 		<div>
 			<Typography variant='h6' align='center'>

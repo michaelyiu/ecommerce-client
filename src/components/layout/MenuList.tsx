@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Drawer from '@material-ui/core/Drawer';
+import {
+	makeStyles,
+	Drawer,
+	List, ListItem, ListItemText
+} from '@material-ui/core';
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { NavContext } from "../../contexts/NavContext";
