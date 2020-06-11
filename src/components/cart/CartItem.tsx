@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import {
-	makeStyles,
 	Grid, Card, CardMedia,
 	Typography,
 	FormControl, InputLabel, MenuItem, Select, Button
@@ -10,30 +9,7 @@ import {
 import { CartContext } from "./../../contexts/CartContext";
 import { Product } from './../../types/types';
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-		flexGrow: 1,
-		paddingTop: theme.spacing(3),
-		paddingBottom: theme.spacing(3),
-	},
-	imgCover: {
-		width: 150,
-		height: 150
-	},
-	content: {
-		flex: '1 0 auto',
-	},
-	details: {
-		display: 'flex',
-		flexDirection: 'column',
-		width: '100%'
-	},
-	formControl: {
-		minWidth: 120
-	}
-}))
-
+import { useStyles } from './CartItemStyles';
 
 //Cart Page
 const Cart: React.FC<Product> = (props) => {

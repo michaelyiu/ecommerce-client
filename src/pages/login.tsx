@@ -55,10 +55,6 @@ export default function Login() {
 		}
 	);
 
-
-
-
-
 	if (loading) return <Spinner />
 	if (data) {
 		window.localStorage.setItem('token', data.signIn.token)

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	makeStyles,
 	Container, Grid,
 	Typography,
 	Avatar,
@@ -16,6 +15,8 @@ import * as LoginTypes from './../../gql/mutations/__generated__/signIn';
 
 import Copyright from "./../layout/Copyright";
 
+import { useStyles } from './LoginFormStyles';
+
 type FormData = {
 	email: string;
 	password: string;
@@ -26,26 +27,6 @@ interface LoginFormProps {
 	error?: JSX.Element
 }
 
-const useStyles = makeStyles(theme => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
-
 //Login form component
 const LoginForm: React.FC<LoginFormProps> = (props) => {
 	const classes = useStyles();
@@ -54,9 +35,6 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
 	const onSubmit = handleSubmit(async (data) => {
 		await props.login({ variables: data })
 	});
-
-
-
 
 	return (
 		<Container component="main" maxWidth="xs">

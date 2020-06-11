@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
 import {
-	makeStyles,
 	Container, Grid,
 	Typography,
 	Table, TableBody, TableCell, TableContainer, TableRow
@@ -11,22 +10,7 @@ import CartItem from "./CartItem";
 
 import { CartContext } from "./../../contexts/CartContext";
 
-const useStyles = makeStyles(theme => ({
-	content: {
-		flexGrow: 1,
-		height: '100vh',
-		// overflow: 'auto', causes double vertical scroll bars..
-	},
-	container: {
-		paddingTop: theme.spacing(4),
-		paddingBottom: theme.spacing(4),
-		margin: 0,
-	},
-	table: {
-		minWidth: 50,
-		width: 300
-	},
-}))
+import { useStyles } from './CartStyles';
 
 //Cart Page
 const Cart: React.FC = () => {

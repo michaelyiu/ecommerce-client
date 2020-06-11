@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 import {
-	makeStyles,
 	Container, Grid, Card, CardContent,
 	Hidden
 } from '@material-ui/core';
@@ -23,47 +22,9 @@ import * as ProductType from '../gql/queries/__generated__/allProducts';
 import { stripTypename } from "../lib/helpers";
 import clsx from 'clsx';
 
+import { useStyles } from './LandingStyles';
 
-const useStyles = makeStyles(theme =>
-	({
-		content: {
-			flexGrow: 1,
-			height: '100vh',
-			// overflow: 'auto', causes double vertical scroll bars..
-		},
-		container: {
-			paddingTop: theme.spacing(4),
-			paddingBottom: theme.spacing(4),
-		},
-		card: {
-			padding: theme.spacing(2),
-			display: 'flex',
-			overflow: 'auto',
-			flexDirection: 'column',
-			backgroundColor: '#F8F8F8',
-			justifyContent: 'center',
-			alignItems: 'center'
-		},
-		fixedHeight: {
-			height: 120,
-		},
-		fixedHeightFilter: {
-			height: 400,
-		},
-		item: {
-			flex: 1
-		},
-		cardContent: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center'
-		},
-		cardContainer: {
-			display: 'flex',
-			flexWrap: 'wrap'
-		}
-	})
-)
+
 
 
 const Landing: React.FC = () => {
