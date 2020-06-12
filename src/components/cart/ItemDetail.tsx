@@ -27,7 +27,7 @@ const ItemDetail: React.FC<Product> = (props) => {
 	const classes = useStyles();
 
 	const { isAuthenticated } = useContext(AuthContext);
-	const { cart, addToCart } = useContext(CartContext);
+	const { cart, dispatchCart } = useContext(CartContext);
 
 	const { item_id } = useParams();
 	let productImage = useRef<HTMLImageElement>(null);
@@ -39,10 +39,10 @@ const ItemDetail: React.FC<Product> = (props) => {
 	});
 
 	const switchImage = (img: string) => {
-		// product
 		if (productImage && productImage.current)
 			productImage.current.src = img
 	}
+
 	return (
 		<main className={classes.content}>
 			<Container maxWidth="xl" className={classes.container}>
@@ -78,10 +78,13 @@ const ItemDetail: React.FC<Product> = (props) => {
 						</Card>
 						<Button onClick={() => {
 							if (data)
-								addToCart(data.product);
+								dispatchCart({ type: 'ADD_ONE_TO_CART', item: data.product })
+
 							if (isAuthenticated)
 								updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
-						}}>Add To Cart</Button>
+						}}>
+							Add To Cart
+						</Button>
 					</Grid>
 
 				</Grid>

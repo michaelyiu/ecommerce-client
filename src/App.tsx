@@ -11,6 +11,8 @@ import { client } from './lib/apollo';
 import AuthContextProvider from "./contexts/AuthContext";
 import CartContextProvider from "./contexts/CartContext";
 import NavContextProvider from "./contexts/NavContext";
+import SearchContextProvider from "./contexts/SearchBarContext";
+import FilterContextProvider from "./contexts/FilterContext";
 import ProductContextProvider from "./contexts/ProductContext";
 
 // Component imports
@@ -33,15 +35,19 @@ const App: React.FC = () => {
           <NavContextProvider>
             <CartContextProvider>
               <ProductContextProvider>
-                <Router>
-                  <NavBar />
-                  <Route exact path="/" component={Landing} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
-                  <Route exact path="/cart" component={Cart} />
-                  <Route exact path="/item/:item_id" component={ItemDetail} />
-                  <MenuList />
-                </Router>
+                <SearchContextProvider>
+                  <FilterContextProvider>
+                    <Router>
+                      <NavBar />
+                      <Route exact path="/" component={Landing} />
+                      <Route exact path="/register" component={Register} />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/cart" component={Cart} />
+                      <Route exact path="/item/:item_id" component={ItemDetail} />
+                      <MenuList />
+                    </Router>
+                  </FilterContextProvider>
+                </SearchContextProvider>
               </ProductContextProvider>
             </CartContextProvider>
           </NavContextProvider>

@@ -51,7 +51,7 @@ const PhoneCard: React.FC<Product> = (props) => {
 	const classes = useStyles();
 
 	const { isAuthenticated } = useContext(AuthContext);
-	const { cart, addToCart } = useContext(CartContext);
+	const { cart, dispatchCart } = useContext(CartContext);
 
 	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
 
@@ -76,7 +76,7 @@ const PhoneCard: React.FC<Product> = (props) => {
 					fullWidth={true}
 				>
 					<Button onClick={async () => {
-						addToCart(props);
+						dispatchCart({ type: 'ADD_ONE_TO_CART', item: props })
 						if (isAuthenticated)
 							await updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
 
@@ -90,7 +90,6 @@ const PhoneCard: React.FC<Product> = (props) => {
 						</Link>
 					</Button>
 				</ButtonGroup>
-
 			</CardContent>
 		</Card>
 	)

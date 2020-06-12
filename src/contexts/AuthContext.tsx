@@ -1,57 +1,33 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
+import { authReducer } from '../reducers/AuthReducer';
 
-type SetAuth = () => void;
-type SetCurrentUser = (value: any) => void;
+type SetAuth = (value: any) => void;
 
-interface IUser {
-  name: String;
-  email: String;
-}
-interface IAuth {
+interface Auth {
   isAuthenticated: Boolean;
-  currentUser: IUser;
-  toggleAuth: SetAuth;
-  addCurrentUser: SetCurrentUser;
+  dispatchAuth: SetAuth;
 }
 
-export const AuthContext = createContext<IAuth>({
+export const AuthContext = createContext<Auth>({
   isAuthenticated: false,
-  currentUser: { name: '', email: '' },
-  toggleAuth: (): void => { },
-  addCurrentUser: (): void => { }
+  dispatchAuth: (): void => { },
 });
 
 const AuthContextProvider: React.FC = props => {
   //Get initial state of the app to whatever is in the localStorage
-  const [isAuthenticated, setAuth] = useState(() => {
+  const [isAuthenticated, dispatchAuth] = useReducer(authReducer, false, () => {
     const localData = localStorage.getItem('isAuthenticated');
     return localData ? JSON.parse(localData) : false;
   });
 
-  const [currentUser, setCurrentUser] = useState(() => {
-    const localData = localStorage.getItem('currentUser');
-    return localData ? JSON.parse(localData) : {};
-  })
-
   // Kinda like the event listeners for the state variables, when changes happen, useEffect kicks in.
   // Can be combined into one and the second variable can be [isAuthenticated, currentUser]
   useEffect(() => {
-    localStorage.setItem('isAuthenticated', isAuthenticated)
+    localStorage.setItem('isAuthenticated', `${isAuthenticated}`)
   }, [isAuthenticated])
-  useEffect(() => {
-    localStorage.setItem('currentUser', JSON.stringify(currentUser))
-  }, [currentUser])
-
-  //Methods to change states
-  const toggleAuth = () => {
-    setAuth(!isAuthenticated)
-  }
-  const addCurrentUser = (user: IUser) => {
-    setCurrentUser(user);
-  }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, currentUser, toggleAuth, addCurrentUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, dispatchAuth }}>
       {props.children}
     </AuthContext.Provider>
   );

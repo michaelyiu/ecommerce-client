@@ -13,7 +13,7 @@ import { useStyles } from './CartItemStyles';
 
 //Cart Page
 const Cart: React.FC<Product> = (props) => {
-	const { editQuantity, removeFromCart } = useContext(CartContext);
+	const { dispatchCart } = useContext(CartContext);
 
 	const classes = useStyles();
 	const total: string = Number(props.price * props.quantity).toFixed(2);
@@ -44,7 +44,7 @@ const Cart: React.FC<Product> = (props) => {
 								// labelId="qty-select-label"
 								value={props.quantity}
 								id="qty-select"
-								onChange={(e) => editQuantity(props.id, Number(e.target.value))}
+								onChange={(e) => dispatchCart({ type: 'EDIT_QUANTITY', id: props.id, quantity: Number(e.target.value) })}
 							>
 								<MenuItem value={1}>1</MenuItem>
 								<MenuItem value={2}>2</MenuItem>
@@ -64,7 +64,7 @@ const Cart: React.FC<Product> = (props) => {
 							<Typography color="textPrimary">{total}</Typography>
 						</Grid>
 						<Grid item>
-							<Button onClick={() => removeFromCart(props.id)}>Remove</Button>
+							<Button onClick={() => dispatchCart({ type: 'REMOVE_FROM_CART', id: props.id })}>Remove</Button>
 						</Grid>
 					</Grid>
 				</Grid>

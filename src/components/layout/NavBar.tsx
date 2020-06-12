@@ -51,15 +51,15 @@ const useStyles = makeStyles(theme => ({
 const NavBar = () => {
 	const classes = useStyles();
 
-	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
-	const { clearCart, sumQtyCart, quantity } = useContext(CartContext);
-	const { active, setActive } = useContext(NavContext);
+	const { isAuthenticated, dispatchAuth } = useContext(AuthContext);
+
+	const { cart, quantity, dispatchCart, dispatchQuantity } = useContext(CartContext);
+	const { dispatchNav } = useContext(NavContext);
 
 	const onLogoutClick = () => {
 		localStorage.clear();
-		clearCart();
-		toggleAuth();
-		sumQtyCart();
+		dispatchCart({ type: 'DELETE_CART' })
+		dispatchAuth({ type: "LOGOUT" })
 	}
 
 	const authLinks = (
@@ -86,8 +86,8 @@ const NavBar = () => {
 	);
 
 	useEffect(() => {
-		sumQtyCart();
-	}, [quantity, sumQtyCart])
+		dispatchQuantity({ type: 'SUM_UP_CART', cart })
+	}, [dispatchQuantity, cart])
 
 	return (
 		<AppBar position="static" style={{ background: '#2E3B55' }}>
@@ -107,7 +107,8 @@ const NavBar = () => {
 				</Hidden> */}
 				<Hidden mdUp>
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-						onClick={() => setActive(!active)}>
+						// onClick={() => setActive(!active)}>
+						onClick={() => dispatchNav({ type: 'TOGGLE_NAV' })}>
 						<MenuIcon />
 					</IconButton>
 				</Hidden>

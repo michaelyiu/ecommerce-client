@@ -16,6 +16,8 @@ import { ALL_PRODUCTS } from "../gql/queries/products";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { CartContext } from "../contexts/CartContext";
+import { SearchContext } from "../contexts/SearchBarContext";
+import { FilterContext } from "../contexts/FilterContext";
 import { ProductContext } from "../contexts/ProductContext";
 
 import * as ProductType from '../gql/queries/__generated__/allProducts';
@@ -24,6 +26,7 @@ import clsx from 'clsx';
 
 import { useStyles } from './LandingStyles';
 
+import { Product } from './../types/types';
 
 
 
@@ -32,8 +35,11 @@ const Landing: React.FC = () => {
 
 	/* context variables */
 	const { isAuthenticated } = useContext(AuthContext);
-	const { addManyToCart, sumQtyCart, quantity } = useContext(CartContext);
-	const { products, setProducts, searchResult, filterResult, setFilter, setSearch } = useContext(ProductContext);
+	// const { addManyToCart, sumQtyCart, quantity } = useContext(CartContext);
+	const { cart, quantity, dispatchCart, dispatchQuantity } = useContext(CartContext);
+	const { products, dispatchProduct } = useContext(ProductContext);
+	const { searchResult, dispatchSearch } = useContext(SearchContext);
+	const { filterResult, dispatchFilter } = useContext(FilterContext);
 	/* context variables */
 
 	const [filterValue, setFilterValue] = useState('');
@@ -50,8 +56,8 @@ const Landing: React.FC = () => {
 			if (allProductsData) {
 				let products: any = allProductsData.allProducts //using any here since I cant match types here..
 				products = stripTypename(products);
-				setProducts(products);
-				sumQtyCart();
+				dispatchProduct({ type: 'SET_PRODUCTS', products });
+				dispatchQuantity({ type: 'SUM_UP_CART', cart })
 			}
 		}
 	})
@@ -64,25 +70,25 @@ const Landing: React.FC = () => {
 				newObj.quantity = cartFromServer[i].quantity;
 				cartItems.push(newObj)
 			}
-
-			addManyToCart(cartItems);
+			dispatchCart({ type: 'ADD_MANY_TO_CART', items: cartItems })
 		}
 	});
 
 	//deals with child Filter component
 	const filterChange = (value: React.ChangeEvent<{}>, newValue: string) => {
-		let results = [];
+		let results: Product[] = [];
 		//if same filter is clicked in succession, the filter is removed
 		//else proceed with normal filter
 		if (newValue === filterValue) {
-			setFilter([]);
+			dispatchFilter({ type: 'SET_FILTER', products: results });
 			setFilterValue('')
 		} else {
 			for (let i = 0; i < products.length; i++) {
 				if (products[i].brand.toLowerCase().includes(newValue.toLowerCase()))
 					results.push(products[i])
 			}
-			setFilter(results);
+
+			dispatchFilter({ type: 'SET_FILTER', products: results });
 			setFilterValue(newValue);
 		}
 	}
@@ -94,13 +100,14 @@ const Landing: React.FC = () => {
 			if (products[i].name.toLowerCase().includes(e.target.value.toLowerCase()))
 				searchResults.push(products[i])
 		}
-		setSearch(searchResults);
+		dispatchSearch({ type: 'SET_SEARCH', products: searchResults });
 		setSearchValue(e.target.value);
 	}
 
+
 	// method to render filters and searches
 	const filterSearch = () => {
-		let arrayToRender = [];
+		let arrayToRender: any = [];
 		//if the search bar is empty and a filter hasn't been selected, all products are rendered
 		if ((searchValue.length === 0 && filterValue.length === 0)) {
 			arrayToRender = [...products];
@@ -170,7 +177,6 @@ const Landing: React.FC = () => {
 							{
 								filterSearch()
 							}
-
 						</Grid>
 					</Grid>
 				</Grid>

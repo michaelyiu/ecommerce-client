@@ -20,19 +20,19 @@ const useStyles = makeStyles(theme => ({
 const MenuList: React.FC = () => {
 	const classes = useStyles();
 
-	const { active, setActive } = useContext(NavContext);
+	const { active, dispatchNav } = useContext(NavContext);
 	const { isAuthenticated } = useContext(AuthContext);
 
 	const authLinks = ['Search', 'About MY Phones', 'Cart', 'Logout'];
 	const guestLinks = ['Register', 'Login', 'Search', 'About MY Phones', 'Cart'];
 
 	return (
-		<Drawer anchor="right" open={active} onClose={() => setActive(false)}>
+		<Drawer anchor="right" open={active} onClose={() => dispatchNav({ type: 'TOGGLE_NAV' })}>
 			<div
 				className={classes.list}
 				role="presentation"
-				onClick={() => setActive(false)}
-				onKeyDown={() => setActive(false)}
+				onClick={() => dispatchNav({ type: 'TOGGLE_NAV' })}
+				onKeyDown={() => dispatchNav({ type: 'TOGGLE_NAV' })}
 			>
 				<List>
 					{isAuthenticated ? authLinks.map((text, index) => (

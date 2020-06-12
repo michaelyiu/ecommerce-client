@@ -16,8 +16,8 @@ import { stripTypename } from "./../lib/helpers";
 
 export default function Login() {
 
-	const { isAuthenticated, toggleAuth } = useContext(AuthContext);
-	const { addManyToCart } = useContext(CartContext);
+	const { isAuthenticated, dispatchAuth } = useContext(AuthContext);
+	const { dispatchCart } = useContext(CartContext);
 
 	const cartData = window.localStorage.getItem('cart')!;
 	const cartItems = cartData !== null ? JSON.parse(cartData) : [];
@@ -32,20 +32,15 @@ export default function Login() {
 			onCompleted(data) {
 				// Store token if login is successful
 				if (data && data.signIn) {
-					toggleAuth();
+					dispatchAuth({ type: 'LOGIN' });
 					window.localStorage.setItem('token', data.signIn.token)
 					window.localStorage.setItem('email', data.signIn.email)
 
-					//once you logged in, updateCart for user with the one in localStorage
-
 					//if local storage cart has items, we updateCart in db
 					if (cartItems.length > 0) {
-						console.log(data)
-						updateCart({ variables: { cartInput: { orderedItems: stripTypename(cartItems) } } })
-						addManyToCart(cartItems);
+						updateCart({ variables: { cartInput: { orderedItems: stripTypename(cartItems) } } });
+						dispatchCart({ type: 'ADD_MANY_TO_CART', items: cartItems })
 					}
-
-					console.log(data)
 					return <Redirect to='/' />
 				}
 			},
