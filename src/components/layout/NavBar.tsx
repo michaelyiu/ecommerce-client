@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 	},
 	menuButton: {
+		marginLeft: theme.spacing(0),
 		marginRight: theme.spacing(2),
 	},
 	title: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 	links: {
 		position: 'relative',
 		textDecoration: 'none',
-		color: 'white'
+		color: 'white',
 	},
 	cartJewel: {
 		display: 'block',
@@ -106,6 +107,11 @@ const NavBar = () => {
 					<Button component={Link} to="/login" color="inherit">Login</Button>
 				</Hidden> */}
 				<Hidden mdUp>
+					<Link to="/cart" className={classes.links}>
+						<ShoppingCartIcon />
+						<span className={classes.cartJewel}>{quantity}</span>
+					</Link>
+
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
 						// onClick={() => setActive(!active)}>
 						onClick={() => dispatchNav({ type: 'TOGGLE_NAV' })}>

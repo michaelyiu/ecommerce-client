@@ -13,7 +13,6 @@ type Action = {
 type State = Product[];
 
 export const cartReducer = (state: State, action: Action) => {
-	console.log(action)
 
 	switch (action.type) {
 		case 'SET_CART':
@@ -56,7 +55,6 @@ export const cartReducer = (state: State, action: Action) => {
 				cartCopy[itemIndex] = itemToUpdate;
 				return state.splice(0, state.length, ...cartCopy);
 			}
-			// return state;
 		}
 		default:
 			return state;

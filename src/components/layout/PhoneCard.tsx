@@ -59,7 +59,7 @@ const PhoneCard: React.FC<Product> = (props) => {
 		<Card className={classes.card} elevation={4}>
 			<CardMedia
 				className={classes.media}
-				image={'https://res.cloudinary.com/themikecloud/image/upload/v1591332368/ecommerce/samsung_s10_black_back.png'}
+				image={props.images[0]}
 				title={props.name}
 			/>
 			<Divider />

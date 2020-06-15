@@ -14,7 +14,6 @@ export const useStyles = makeStyles(theme =>
 			paddingBottom: theme.spacing(4),
 		},
 		card: {
-			padding: theme.spacing(2),
 			display: 'flex',
 			overflow: 'auto',
 			flexDirection: 'column',

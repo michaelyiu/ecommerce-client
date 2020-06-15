@@ -23,7 +23,7 @@ import NavBar from "./components/layout/NavBar";
 import MenuList from "./components/layout/MenuList";
 
 import Cart from "./components/cart/Cart";
-import ItemDetail from './components/cart/ItemDetail';
+import ItemDetails from './pages/ItemDetails';
 
 
 const App: React.FC = () => {
@@ -43,7 +43,7 @@ const App: React.FC = () => {
                       <Route exact path="/register" component={Register} />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/cart" component={Cart} />
-                      <Route exact path="/item/:item_id" component={ItemDetail} />
+                      <Route exact path="/item/:item_id" component={ItemDetails} />
                       <MenuList />
                     </Router>
                   </FilterContextProvider>
