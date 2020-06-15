@@ -62,13 +62,16 @@ const NavBar = () => {
 		dispatchCart({ type: 'DELETE_CART' })
 		dispatchAuth({ type: "LOGOUT" })
 	}
+	const cartHTML = (
+		<Link to="/cart" className={classes.links}>
+			<ShoppingCartIcon />
+			<span className={classes.cartJewel}>{quantity}</span>
+		</Link>
+	);
 
 	const authLinks = (
 		<Hidden smDown>
-			<Link to="/cart" className={classes.links}>
-				<ShoppingCartIcon />
-				<span className={classes.cartJewel}>{quantity}</span>
-			</Link>
+			{cartHTML}
 			<Button component={Link} to="/" color="inherit"
 				onClick={onLogoutClick}
 			> Logout</Button>
@@ -77,10 +80,8 @@ const NavBar = () => {
 
 	const guestLinks = (
 		<Hidden smDown>
-			<Link to="/cart" className={classes.links}>
-				<ShoppingCartIcon />
-				<span className={classes.cartJewel}>{quantity}</span>
-			</Link>
+			{cartHTML}
+
 			<Button component={Link} to="/register" color="inherit">Register</Button>
 			<Button component={Link} to="/login" color="inherit">Login</Button>
 		</Hidden>
@@ -99,21 +100,9 @@ const NavBar = () => {
 					</Link>
 				</Typography>
 				{isAuthenticated ? authLinks : guestLinks}
-				{/* <Hidden smDown>
-					<Link to="/cart" className={classes.links}>
-						<ShoppingCartIcon />
-					</Link>
-					<Button component={Link} to="/register" color="inherit">Register</Button>
-					<Button component={Link} to="/login" color="inherit">Login</Button>
-				</Hidden> */}
 				<Hidden mdUp>
-					<Link to="/cart" className={classes.links}>
-						<ShoppingCartIcon />
-						<span className={classes.cartJewel}>{quantity}</span>
-					</Link>
-
+					{cartHTML}
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-						// onClick={() => setActive(!active)}>
 						onClick={() => dispatchNav({ type: 'TOGGLE_NAV' })}>
 						<MenuIcon />
 					</IconButton>

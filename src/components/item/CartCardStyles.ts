@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(theme =>
 	({
-		test: {
+		cartCardTitle: {
 			backgroundColor: 'rgb(46, 59, 85)',
 			color: 'white'
 		},

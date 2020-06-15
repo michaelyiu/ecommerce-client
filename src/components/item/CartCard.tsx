@@ -33,7 +33,7 @@ const CartCard: React.FC<Product> = (props) => {
 			<Card elevation={4}>
 				<CardContent
 					title={'test'}
-					className={classes.test}
+					className={classes.cartCardTitle}
 				>
 					<div className={classes.cartCardText}>
 						<ShoppingCartIcon />
