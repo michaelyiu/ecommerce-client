@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 
 import {
-	Container, Grid, Card, CardContent,
+	Container, Grid, Card,
 	Hidden
 } from '@material-ui/core';
 
@@ -27,6 +27,7 @@ import clsx from 'clsx';
 import { useStyles } from './LandingStyles';
 
 import { Product } from './../types/types';
+import CartCard from "../components/item/CartCard";
 
 
 
@@ -156,17 +157,16 @@ const Landing: React.FC = () => {
 						<Hidden smDown>
 							<Grid container direction="column" spacing={4}>
 								<Grid className={classes.item} item>
+									<CartCard />
+								</Grid>
+								<Grid className={classes.item} item>
 									<Card className={fixedHeightCard} elevation={4}>
-										<CardContent className={classes.cardContent}>
-											<Search searchChange={searchChange} />
-										</CardContent>
+										<Search searchChange={searchChange} />
 									</Card>
 								</Grid>
 								<Grid className={classes.item} item>
 									<Card className={`${classes.fixedHeightFilter} ${classes.card}`} elevation={4}>
-										<CardContent className={classes.cardContent}>
-											<Filter filterChange={filterChange} value={filterValue} />
-										</CardContent>
+										<Filter filterChange={filterChange} value={filterValue} />
 									</Card>
 								</Grid>
 							</Grid>

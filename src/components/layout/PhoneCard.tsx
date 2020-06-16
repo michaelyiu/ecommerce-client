@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { useMutation } from '@apollo/react-hooks';
 
 import {
-	makeStyles,
 	Card, CardMedia, CardContent,
 	Button, ButtonGroup,
 	Divider,
@@ -11,6 +10,8 @@ import {
 	Link,
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
+import { useStyles } from './PhoneCardStyles';
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { CartContext } from "../../contexts/CartContext";
@@ -22,29 +23,7 @@ import { Product } from './../../types/types';
 
 import { stripTypename } from "../../lib/helpers";
 
-const useStyles = makeStyles(theme => ({
-	media: {
-		height: '80%',
-		// paddingTop: '56.25%', // 16:9
-		width: '80%'
-	},
-	card: {
-		padding: theme.spacing(2),
-		display: 'flex',
-		overflow: 'auto',
-		flex: 1,
-		flexDirection: 'column',
-		backgroundColor: '#FFFFFF',
-		alignItems: 'center',
-		height: 420,
-	},
-	pos: {
-		margin: '6px 0',
-		height: '100px'
-	},
 
-})
-)
 
 
 const PhoneCard: React.FC<Product> = (props) => {

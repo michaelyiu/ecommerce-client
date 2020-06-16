@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-	makeStyles,
 	AppBar, Toolbar,
 	Typography,
 	Button, IconButton,
 	Hidden
 } from '@material-ui/core';
+import { useStyles } from './NavBarStyles';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -16,38 +16,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { CartContext } from "../../contexts/CartContext";
 import { NavContext } from "../../contexts/NavContext";
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1,
-	},
-	menuButton: {
-		marginLeft: theme.spacing(0),
-		marginRight: theme.spacing(2),
-	},
-	title: {
-		flexGrow: 1,
-	},
-	links: {
-		position: 'relative',
-		textDecoration: 'none',
-		color: 'white',
-	},
-	cartJewel: {
-		display: 'block',
-		textAlign: 'center',
-		width: '16px',
-		height: '16px',
-		position: 'absolute',
-		top: '-6px',
-		right: '-6px',
-		borderRadius: '50%',
-		paddingTop: '1px',
-		lineHeight: '12px',
-		fontSize: '12px',
-		color: '#fff',
-		background: '#fa5400',
-	}
-}));
+
 
 const NavBar = () => {
 	const classes = useStyles();

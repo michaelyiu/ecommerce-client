@@ -10,7 +10,6 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { NavContext } from "../../contexts/NavContext";
 
 const useStyles = makeStyles(theme => ({
-
 	list: {
 		width: 250,
 	},

@@ -2,10 +2,10 @@
 import React from "react";
 
 import {
-	makeStyles,
 	Typography,
 	Tabs, Tab
 } from '@material-ui/core';
+import { useStyles } from './FilterStyles';
 
 import { BrandList } from '../../types/types';
 
@@ -14,24 +14,6 @@ export interface FilterFunction {
 	value: string
 }
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		// display: 'flex',
-		flexDirection: 'column',
-		'& > *': {
-			margin: theme.spacing(1),
-		},
-		'&:last-child': { paddingBottom: '5px' }
-
-	},
-	tabs: {
-		borderRight: `1px solid ${theme.palette.divider}`,
-		fontSize: '0.5rem',
-	},
-	tab: {
-		minHeight: '16px',
-	}
-}));
 
 const Filter: React.FC<FilterFunction> = (props) => {
 	const classes = useStyles();

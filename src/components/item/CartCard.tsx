@@ -19,7 +19,7 @@ import { stripTypename } from "../../lib/helpers";
 import { useStyles } from './CartCardStyles';
 
 
-const CartCard: React.FC<Product> = (props) => {
+const CartCard: React.FC<Partial<Product>> = (props) => {
 	let history = useHistory();
 	const classes = useStyles();
 
@@ -27,7 +27,6 @@ const CartCard: React.FC<Product> = (props) => {
 	const { cart, dispatchCart, quantity } = useContext(CartContext);
 
 	const [updateCart] = useMutation<UpdateCartType.updateCart>(UPDATE_CART);
-
 	return (
 		<React.Fragment>
 			<Card elevation={4}>
@@ -40,38 +39,45 @@ const CartCard: React.FC<Product> = (props) => {
 						{quantity === 1 ? `${quantity} item in cart` : `${quantity} items in cart`}
 					</div>
 				</CardContent>
-				<CardContent>
-					<Typography>
-						{props.name}
-					</Typography>
-					<Typography>
-						${props.price}
-					</Typography>
-				</CardContent>
-				<CardContent>
+				{
+					Object.keys(props).length > 0 ? (
+						<React.Fragment>
+							<CardContent>
+								<Typography>
+									{props.name}
+								</Typography>
+								<Typography>
+									${props.price}
+								</Typography>
+							</CardContent>
+							<CardContent>
+								<Button
+									variant="contained"
+									color="primary"
+									className={classes.cartCardButtons}
+									onClick={() => {
+										dispatchCart({ type: 'ADD_ONE_TO_CART', item: props })
 
-					<Button
-						variant="contained"
-						color="primary"
-						className={classes.cartCardButtons}
-						onClick={() => {
-							dispatchCart({ type: 'ADD_ONE_TO_CART', item: props })
+										if (isAuthenticated)
+											updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
+									}}
+								>
+									Add to Cart
+								</Button>
+								<Button
+									variant="contained"
+									color="primary"
+									className={classes.cartCardButtons}
+									onClick={() => history.push('/')}
+								>
+									Back to store
+							</Button>
+							</CardContent>
+						</React.Fragment>
 
-							if (isAuthenticated)
-								updateCart({ variables: { cartInput: { orderedItems: stripTypename(cart) } } })
-						}}
-					>
-						Add to Cart
-					</Button>
-					<Button
-						variant="contained"
-						color="primary"
-						className={classes.cartCardButtons}
-						onClick={() => history.push('/')}
-					>
-						Back to store
-					</Button>
-				</CardContent>
+					) : null
+				}
+
 			</Card>
 		</React.Fragment>
 	)

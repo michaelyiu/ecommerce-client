@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 
 import {
-	makeStyles,
 	Container, Grid
 } from '@material-ui/core';
+
+import { useStyles } from './ItemDetailsStyles';
 
 import { GET_PRODUCT } from "../gql/queries/products";
 
@@ -15,33 +16,7 @@ import FullPhoneDetails from '../components/item/FullPhoneDetails';
 
 import { Product } from './../types/types';
 
-const useStyles = makeStyles(theme =>
-	({
-		content: {
-			flexGrow: 1,
-			height: '100vh',
-			// overflow: 'auto', causes double vertical scroll bars..
-		},
-		container: {
-			paddingTop: theme.spacing(4),
-			paddingBottom: theme.spacing(4),
-		},
-		card: {
-			display: 'flex',
-			overflow: 'auto',
-			flexDirection: 'column',
-			backgroundColor: '#F8F8F8',
-			justifyContent: 'center',
-			alignItems: 'center'
-		},
-		fixedHeight: {
-			height: 120,
-		},
-		item: {
-			flex: 1
-		},
-	})
-)
+
 
 const ItemDetails: React.FC<Product> = () => {
 	const classes = useStyles();
