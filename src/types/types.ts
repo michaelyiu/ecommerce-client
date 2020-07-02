@@ -46,3 +46,13 @@ export const BrandList = [
 	'SONY',
 	'XIAOMI'
 ]
+
+export interface ShippingInfo {
+	firstname: string
+	lastname: string
+	address: string
+	city: string
+	province: string
+	postal: string
+	country: string
+}

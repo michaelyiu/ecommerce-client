@@ -1,30 +1,27 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from 'react-router-dom';
+
+import { useHistory } from "react-router-dom";
 
 import {
 	Container, Grid,
-	Typography,
-	Table, TableBody, TableCell, TableContainer, TableRow
+	Typography, Button,
 } from '@material-ui/core';
 
 import CartItem from "./CartItem";
-
+import Summary from '../common/Summary';
 import { CartContext } from "./../../contexts/CartContext";
 
 import { useStyles } from './CartStyles';
 
 //Cart Page
 const Cart: React.FC = () => {
+	let history = useHistory();
 	const classes = useStyles();
-	const { cart } = useContext(CartContext);
+	const { cart, dispatchCart } = useContext(CartContext);
 
-	let subtotal = 0;
-	for (let i = 0; i < cart.length; i++) {
-		subtotal = subtotal + (cart[i].price * cart[i].quantity);
-	}
 
-	const formattedSubtotal: string = Number(subtotal).toFixed(2);
-	const tax: string = Number(+formattedSubtotal * .13).toFixed(2);
-	const total: string = Number(+formattedSubtotal + +tax).toFixed(2);
+
 
 	useEffect(() => {
 
@@ -51,36 +48,32 @@ const Cart: React.FC = () => {
 						</Grid>
 					</Grid>
 					<Grid item xs={12} md={4} lg={4}>
-						<TableContainer>
-							<Table className={classes.table} aria-label="spanning table">
+						<Summary />
 
-								<TableBody>
-									<TableRow>
-										<TableCell>
-
-											<Typography variant='h6'>
-												Summary
-											</Typography>
-										</TableCell>
-
-									</TableRow>
-
-									<TableRow>
-										<TableCell>Subtotal</TableCell>
-										<TableCell align="right">{formattedSubtotal}</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell >Taxes</TableCell>
-										<TableCell align="right">{tax}</TableCell>
-									</TableRow>
-									<TableRow>
-										<TableCell >Total</TableCell>
-										<TableCell align="right">{total}</TableCell>
-									</TableRow>
-								</TableBody>
-
-							</Table>
-						</TableContainer>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => history.push('/')}
+						>
+							Back to Shop
+						</Button>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => dispatchCart({ type: 'DELETE_CART' })}
+						>
+							Clear Cart
+						</Button>
+						<Button
+							component={Link}
+							to='/checkout'
+							variant="contained"
+							color="secondary"
+							disabled={cart.length === 0 ? true : false}
+						>
+							Checkout
+						</Button>
+						{/* <CheckoutModal modalStatus={modalStatus} modalClose={modalClose} /> */}
 					</Grid>
 				</Grid>
 			</Container>

@@ -12,7 +12,7 @@ const FullPhoneDetails: React.FC<Product> = (props) => {
 		<React.Fragment>
 			<Card elevation={4}>
 				<CardContent>
-					<Typography variant='h6'>
+					<Typography variant='h5'>
 						Specifications
 					</Typography>
 				</CardContent>

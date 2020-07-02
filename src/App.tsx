@@ -15,6 +15,9 @@ import SearchContextProvider from "./contexts/SearchBarContext";
 import FilterContextProvider from "./contexts/FilterContext";
 import ProductContextProvider from "./contexts/ProductContext";
 
+import ShippingContextProvider from "./contexts/ShippingContext";
+import BillingContextProvider from "./contexts/BillingContext";
+
 // Component imports
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -24,6 +27,8 @@ import MenuList from "./components/layout/MenuList";
 
 import Cart from "./components/cart/Cart";
 import ItemDetails from './pages/ItemDetails';
+
+import Checkout from "./components/checkout/Checkout";
 
 
 const App: React.FC = () => {
@@ -36,17 +41,22 @@ const App: React.FC = () => {
             <CartContextProvider>
               <ProductContextProvider>
                 <SearchContextProvider>
-                  <FilterContextProvider>
-                    <Router>
-                      <NavBar />
-                      <Route exact path="/" component={Landing} />
-                      <Route exact path="/register" component={Register} />
-                      <Route exact path="/login" component={Login} />
-                      <Route exact path="/cart" component={Cart} />
-                      <Route exact path="/item/:item_id" component={ItemDetails} />
-                      <MenuList />
-                    </Router>
-                  </FilterContextProvider>
+                  <ShippingContextProvider>
+                    <BillingContextProvider>
+                      <FilterContextProvider>
+                        <Router>
+                          <NavBar />
+                          <Route exact path="/" component={Landing} />
+                          <Route exact path="/register" component={Register} />
+                          <Route exact path="/login" component={Login} />
+                          <Route exact path="/cart" component={Cart} />
+                          <Route exact path="/checkout" component={Checkout} />
+                          <Route exact path="/item/:item_id" component={ItemDetails} />
+                          <MenuList />
+                        </Router>
+                      </FilterContextProvider>
+                    </BillingContextProvider>
+                  </ShippingContextProvider>
                 </SearchContextProvider>
               </ProductContextProvider>
             </CartContextProvider>

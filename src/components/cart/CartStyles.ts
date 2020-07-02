@@ -17,4 +17,4 @@ export const useStyles = makeStyles(theme => ({
 		minWidth: 50,
 		width: 300
 	},
-}))
+}));
