@@ -143,7 +143,7 @@ const Shipping = (props: CheckoutProps) => {
 									color="primary"
 								>
 									Continue to Billing
-							</Button>
+								</Button>
 							</Grid>
 						</Grid>
 					</form>

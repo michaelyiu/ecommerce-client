@@ -21,7 +21,7 @@ const Billing = (props: CheckoutProps) => {
 
 	const { nextStep } = props;
 	const { shippingInfo } = useContext(ShippingContext);
-	const { billingInfo, dispatchBilling } = useContext(BillingContext);
+	const { dispatchBilling } = useContext(BillingContext);
 	const { register, handleSubmit } = useForm<ShippingInfo>();
 
 	const [checked, setChecked] = useState(true);
