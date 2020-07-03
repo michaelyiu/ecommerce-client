@@ -2,6 +2,11 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(theme =>
 	({
+		root: {
+			'&:last-child': {
+				paddingBottom: '16px'
+			}
+		},
 		content: {
 			flexGrow: 1,
 			height: '100vh',
@@ -12,8 +17,10 @@ export const useStyles = makeStyles(theme =>
 			paddingBottom: theme.spacing(4),
 		},
 		banner: {
+			display: 'flex',
 			backgroundColor: 'rgb(46, 59, 85)',
-			color: 'white'
+			color: 'white',
+			justifyContent: 'space-between',
 		},
 		item: {
 			flex: 1
@@ -24,6 +31,6 @@ export const useStyles = makeStyles(theme =>
 		},
 		halfWidth: {
 			width: '100%'
-		}
+		},
 	})
 );

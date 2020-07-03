@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, Container, Grid, Card, CardContent, InputLabel, OutlinedInput } from '@material-ui/core';
+import { Button, Container, Grid, Card, CardContent, InputLabel, OutlinedInput, Typography } from '@material-ui/core';
 import { useStyles } from './CheckoutStyles';
 
 import { useForm } from "react-hook-form";
@@ -32,13 +32,13 @@ const Shipping = (props: CheckoutProps) => {
 				title={'shipping'}
 				className={classes.banner}
 			>
-				<div>1. Shipping</div>
+				<Typography variant='subtitle1'>1. Shipping</Typography>
 			</CardContent>
 			<Container>
 				<CardContent>
 					<form noValidate onSubmit={onSubmit}>
-						<Grid spacing={4} container>
-							<Grid item xs={'auto'} md={6} lg={6}>
+						<Grid spacing={4} container justify={'flex-end'}>
+							<Grid item xs={'auto'} md={6} lg={6} >
 								<InputLabel
 									required
 									htmlFor="firstname"
@@ -135,14 +135,15 @@ const Shipping = (props: CheckoutProps) => {
 									inputRef={register}
 									value={shippingInfo ? shippingInfo.country : ''}
 								/>
+							</Grid>
+							<Grid container item xs={'auto'} md={6} lg={6} justify="flex-end">
 								<Button
 									type="submit"
 									variant="contained"
 									color="primary"
-								// onClick={() => nextStep("Shipping")}
 								>
 									Continue to Billing
-								</Button>
+							</Button>
 							</Grid>
 						</Grid>
 					</form>

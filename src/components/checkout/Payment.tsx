@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Typography } from '@material-ui/core';
 
 import { useStyles } from './CheckoutStyles';
 
@@ -11,7 +11,7 @@ const Payment = () => {
 				title={'Payment'}
 				className={classes.banner}
 			>
-				<div>3. Payment</div>
+				<Typography variant='subtitle1'>3. Payment</Typography>
 			</CardContent>
 		</Card>
 	)

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardContent } from '@material-ui/core';
+import { Button, Card, CardContent, Typography } from '@material-ui/core';
 
 import { useStyles } from './CheckoutStyles';
 
@@ -14,12 +14,12 @@ const FormlessBanner = (props: FormlessBannerProps) => {
 	const { title, changeStep, currentStep } = props;
 
 	return (
-		<Card elevation={4}>
+		<Card elevation={4} className={classes.checkoutForm}>
 			<CardContent
 				title={'Payment'}
-				className={classes.banner}
+				className={`${classes.banner} ${classes.root}`}
 			>
-				<div>{title}</div>
+				<Typography variant='subtitle1'>{title}</Typography>
 				{
 					((currentStep !== 'Shipping' && title === 'Billing' && changeStep)
 						|| (currentStep !== 'Shipping' && title === 'Shipping' && changeStep)
@@ -35,7 +35,7 @@ const FormlessBanner = (props: FormlessBannerProps) => {
 						: null
 				}
 			</CardContent>
-		</Card>
+		</Card >
 	)
 }
 

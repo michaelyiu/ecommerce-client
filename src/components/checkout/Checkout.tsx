@@ -26,7 +26,6 @@ const Checkout = () => {
 				break;
 		}
 	}
-
 	const changeStep = (step: string) => {
 		setCheckpoint(step)
 	}
@@ -35,7 +34,7 @@ const Checkout = () => {
 		<main className={classes.content}>
 			<Container maxWidth="xl" className={classes.container}>
 				<Grid spacing={4} container className={classes.container}>
-					<Grid item xs={'auto'} md={8} lg={8} className={classes.item}>
+					<Grid item xs={8} md={8} lg={8} className={classes.item}>
 						{
 							checkpoint === 'Shipping'
 								? <Shipping nextStep={goNextStep} />
@@ -54,13 +53,12 @@ const Checkout = () => {
 						}
 
 					</Grid>
-					<Grid item xs={'auto'} md={4} lg={4} className={classes.item}>
+					<Grid item xs={4} md={4} lg={4} className={classes.item}>
 						<Summary />
 					</Grid>
 				</Grid>
 			</Container>
 		</main >
-
 	)
 }
 

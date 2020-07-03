@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Checkbox, FormControlLabel, Container, Grid, Card, CardContent, InputLabel, OutlinedInput } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, Container, Grid, Card, CardContent, InputLabel, OutlinedInput, Typography } from '@material-ui/core';
 import { useStyles } from './CheckoutStyles';
 
 import { useForm } from "react-hook-form";
@@ -157,29 +157,30 @@ const Billing = (props: CheckoutProps) => {
 				title={'billing'}
 				className={classes.banner}
 			>
-				<div>2. Billing</div>
+				<Typography variant='subtitle1'>2. Billing</Typography>
 			</CardContent>
 			<Container>
 				<CardContent>
 					<FormControlLabel
 						control={<Checkbox checked={checked} onChange={handleChange} name="useSameAddress" />}
-						label="My billing address is the same as my shipping address"
+						label="Use shipping address"
 					/>
 					<form noValidate onSubmit={onSubmit}>
-						<Grid spacing={4} container>
+						<Grid spacing={4} container justify={'flex-end'}>
 							{
 								checked
 									? shippingDetails
 									: billingDetails
 							}
-							<Button
-								type="submit"
-								variant="contained"
-								color="primary"
-							// onClick={() => nextStep("Billing")}
-							>
-								Continue to Payment
-						</Button>
+							<Grid container item xs={'auto'} md={6} lg={6} justify="flex-end">
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+								>
+									Continue to Payment
+								</Button>
+							</Grid>
 						</Grid>
 					</form>
 				</CardContent>
