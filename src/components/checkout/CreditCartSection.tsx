@@ -85,7 +85,7 @@ const CreditCartSection = (props: BillProps) => {
 					required
 					fullWidth
 					value={name}
-					onChange={(e) => setName(e.target.value)}
+					onChange={(e: any) => setName(e.target.value)}
 				/>
 			</div>
 			<div className="form-row">
