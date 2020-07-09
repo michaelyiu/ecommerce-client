@@ -37,8 +37,8 @@ const Shipping = (props: CheckoutProps) => {
 			<Container>
 				<CardContent>
 					<form noValidate onSubmit={onSubmit}>
-						<Grid spacing={4} container justify={'flex-end'}>
-							<Grid item xs={'auto'} md={6} lg={6} >
+						<Grid spacing={4} container direction="row" wrap="wrap" alignItems="flex-start" justify="flex-end">
+							<Grid item xs={12} md={6} lg={6} >
 								<InputLabel
 									required
 									htmlFor="firstname"
@@ -52,7 +52,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.firstname : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={6} lg={6}>
+							<Grid item xs={12} md={6} lg={6}>
 								<InputLabel
 									required
 									htmlFor="lastname"
@@ -66,7 +66,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.lastname : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={12} lg={12}>
+							<Grid item xs={12} md={12} lg={12}>
 								<InputLabel
 									required
 									htmlFor="address"
@@ -80,7 +80,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.address : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={6} lg={6}>
+							<Grid item xs={12} md={6} lg={6}>
 								<InputLabel
 									required
 									htmlFor="city"
@@ -94,7 +94,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.city : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={6} lg={6}>
+							<Grid item xs={12} md={6} lg={6}>
 								<InputLabel
 									required
 									htmlFor="province"
@@ -108,7 +108,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.province : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={6} lg={6}>
+							<Grid item xs={12} md={6} lg={6}>
 								<InputLabel
 									required
 									htmlFor="postal"
@@ -122,7 +122,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.postal : ''}
 								/>
 							</Grid>
-							<Grid item xs={'auto'} md={6} lg={6}>
+							<Grid item xs={12} md={6} lg={6}>
 								<InputLabel
 									required
 									htmlFor="country"
@@ -136,7 +136,7 @@ const Shipping = (props: CheckoutProps) => {
 									value={shippingInfo ? shippingInfo.country : ''}
 								/>
 							</Grid>
-							<Grid container item xs={'auto'} md={6} lg={6} justify="flex-end">
+							<Grid container item xs={12} md={6} lg={6} justify="flex-end">
 								<Button
 									type="submit"
 									variant="contained"

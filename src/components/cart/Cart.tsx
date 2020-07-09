@@ -21,7 +21,14 @@ const Cart: React.FC = () => {
 	const { cart, dispatchCart } = useContext(CartContext);
 
 
+	let subtotal = 0;
+	for (let i = 0; i < cart.length; i++) {
+		subtotal = subtotal + (cart[i].price * cart[i].quantity);
+	}
 
+	const formattedSubtotal: string = Number(subtotal).toFixed(2);
+	const tax: string = Number(+formattedSubtotal * .13).toFixed(2);
+	const total: number = parseFloat(Number(+formattedSubtotal + +tax).toFixed(2));
 
 	useEffect(() => {
 
@@ -48,7 +55,7 @@ const Cart: React.FC = () => {
 						</Grid>
 					</Grid>
 					<Grid item xs={12} md={4} lg={4}>
-						<Summary />
+						<Summary formattedSubtotal={formattedSubtotal} tax={tax} total={total} />
 
 						<Button
 							variant="contained"

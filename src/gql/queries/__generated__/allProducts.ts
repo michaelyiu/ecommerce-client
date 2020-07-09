@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { AvailableBrands } from "./../../../../__generated__/globalTypes";
-
 // ====================================================
 // GraphQL query operation: allProducts
 // ====================================================
@@ -17,7 +15,7 @@ export interface allProducts_allProducts {
   category: string;
   images: string[];
   description: string;
-  brand: AvailableBrands;
+  brand: string;
 }
 
 export interface allProducts {

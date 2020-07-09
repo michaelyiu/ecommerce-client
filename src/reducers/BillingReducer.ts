@@ -8,7 +8,6 @@ type Action = {
 type State = ShippingInfo;
 
 export const billingReducer = (state: State, action: Action) => {
-	console.log(action)
 	switch (action.type) {
 		case 'SET_BILLING': {
 			return action.billing

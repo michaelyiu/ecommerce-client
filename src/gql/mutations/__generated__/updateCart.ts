@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CartInput, AvailableBrands } from "./../../../../__generated__/globalTypes";
+import { CartInput } from "./../../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: updateCart
@@ -17,7 +17,7 @@ export interface updateCart_updateCart_orderedItems_product {
   images: string[];
   name: string;
   price: number;
-  brand: AvailableBrands;
+  brand: string;
 }
 
 export interface updateCart_updateCart_orderedItems {

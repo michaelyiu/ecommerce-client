@@ -166,7 +166,7 @@ const Billing = (props: CheckoutProps) => {
 						label="Use shipping address"
 					/>
 					<form noValidate onSubmit={onSubmit}>
-						<Grid spacing={4} container justify={'flex-end'}>
+						<Grid spacing={4} container direction="column" alignItems="flex-start" justify="flex-end">
 							{
 								checked
 									? shippingDetails

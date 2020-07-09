@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import {
 	Typography,
@@ -6,22 +6,22 @@ import {
 	Card, CardContent
 } from '@material-ui/core';
 
-import { CartContext } from "./../../contexts/CartContext";
-
 import { useStyles } from './SummaryStyles';
 
-const Summary = () => {
+interface BillProps {
+	formattedSubtotal: string
+	tax: string
+	total: number
+}
+
+
+const Summary = (props: BillProps) => {
+
+	const { formattedSubtotal, tax, total } = props;
+
 	const classes = useStyles();
-	const { cart } = useContext(CartContext);
 
-	let subtotal = 0;
-	for (let i = 0; i < cart.length; i++) {
-		subtotal = subtotal + (cart[i].price * cart[i].quantity);
-	}
 
-	const formattedSubtotal: string = Number(subtotal).toFixed(2);
-	const tax: string = Number(+formattedSubtotal * .13).toFixed(2);
-	const total: string = Number(+formattedSubtotal + +tax).toFixed(2);
 
 	return (
 		<>
