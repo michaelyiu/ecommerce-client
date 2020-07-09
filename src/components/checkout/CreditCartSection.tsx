@@ -5,7 +5,6 @@ import './CreditCardSectionStyles.css';
 
 import { useMutation } from '@apollo/react-hooks';
 
-import { useStyles } from './CheckoutStyles';
 import { useForm } from "react-hook-form";
 
 import { CHECKOUT_MUTATION } from "../../gql/mutations/checkout";
@@ -38,11 +37,10 @@ interface BillProps {
 
 const CreditCartSection = (props: BillProps) => {
 
-	const classes = useStyles();
-	const { register, handleSubmit } = useForm();
+	const { handleSubmit } = useForm();
 	const [name, setName] = useState('');
 	const [checkout] = useMutation(CHECKOUT_MUTATION);
-	const { tax, formattedSubtotal, total } = props;
+	const { total } = props;
 
 	const stripe = useStripe();
 	const elements = useElements();

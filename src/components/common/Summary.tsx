@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-	Typography,
 	Table, TableBody, TableCell, TableContainer, TableRow,
 	Card, CardContent
 } from '@material-ui/core';

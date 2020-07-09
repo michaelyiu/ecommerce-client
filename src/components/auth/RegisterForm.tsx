@@ -35,7 +35,7 @@ interface RegisterFormProps {
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
 
 	const classes = useStyles();
-	const { register, handleSubmit, errors } = useForm<FormData>();
+	const { register, handleSubmit, /*errors*/ } = useForm<FormData>();
 
 	const onSubmit = handleSubmit((data) => {
 		props.register({ variables: data })
